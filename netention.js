@@ -1,16 +1,43 @@
+"use strict";
 /*jslint node: true */
 /* jshint multistr: true, browser: true */
 /* globals $:false, Cesium:false, nobjectsIn:false, console:false, Self:false, layers:false, _:false */
 
-var netentionOptions = {
-    "ServerName": "SomeServerName",
-    "ServerType": "0", // 0 = Global (node + full network), 1 = Mirror (support global network), 2 = Independent (node only, no network), 
+/** the client-side configuration state */
+class NClient {
+
+    constructor(serverURL, opt={}) {
+        this.serverURL = serverURL;
+    }
+
+}
+
+const exampleClientConfig = new NClient("localhost", {
+    //"ServerType": "0",
+        //  0 = Global (node + full network)
+        //  1 = Mirror (support global network),
+        //  2 = Independent (node only, no network),
+
+    //server.privacy = {
+    //  "AllowAnonymousLogin": true,
+    //  "MinPrivacyLevel", "MaxPrivacyLevel" // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+    //}
+
     // PRIVACY
-    "AllowAnonymousLogin": true,
-    "MaxPrivacyLevel": "0", // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
-    "DefaultPrivacyLevel": "1", // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
-    "DefaultNobjectDuration": "0", // 0 = infinity else set number in minutes
-    "DefaultContentLicense": "AGPL", // determine the default license for posted Nobjects
+    privacy: {
+        // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+        'levelDefault': 1
+    },
+    memory: {
+        'durationDefault': Infinity,
+            // determine the default license for posted Nobjects
+            //"this message should be destructed at"
+            //"5 minutes"
+            //"10 days"
+        'license': "AGPL"
+            //'Creative
+    },
+
     // VIEWS
     "IncludeFeed": true,
     "IncludeGraph": true,
@@ -24,8 +51,8 @@ var netentionOptions = {
     // ADDONS
     "DefaultTheme": "dark", // Options: "dark" or "light"
     "AllowThemes": true,
-    "AllowPlugins": true,
-}
+    "AllowPlugins": true
+});
 
 var sampleNobjects = {
     "I": "Nobjects",
@@ -52,7 +79,6 @@ var sampleNobjects = {
 }
 
 //(function () {
-  'use strict';
    //the rest of the function
 
    // Set Theme
