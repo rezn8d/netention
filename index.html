@@ -16,10 +16,14 @@
 </head>
 <body>
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
+<p class="browserupgrade"><strong>Upgrade</strong> browser <a href="http://browsehappy.com/">to improve
+    </a> experience.</p>
 <![endif]-->
 
+<!-- MAIN VIEWPORT -->
+<div id="nt-view">
+    <div id="loading">LOADING</div>
+</div>
 
 <!-- MAIN MENU -->
 <div id="nt-view-menu">
@@ -119,10 +123,7 @@
         </li>
     </ul>
 </nav>
-<!-- MAIN VIEWPORT -->
-<div id="nt-view">
-    <div id="loading">LOADING</div>
-</div>
+
 
 <script type="text/javascript" src="lib/LAB.min.js"></script>
 <script type="text/javascript">
@@ -142,9 +143,6 @@
                     .wait()
                     .wait(() => {
                         $('#loading').hide();
-
-
-                        console.error(window.N);
 
                         const netentionOptions = new NClient({
                             network: [
@@ -262,7 +260,7 @@
 
 
                         //console.info(SpaceGraphView);
-                        //new SpaceGraphView().build({}, $('#nt-view'));
+                        new SpaceGraphView().build({}, $('#nt-view'));
                     });
             });
         });
