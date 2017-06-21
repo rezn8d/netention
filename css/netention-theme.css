@@ -22,35 +22,30 @@ div.nt-btn:focus {
 
 
 /* DARK THEME */
-body.dark div#nt-menu {
-    background: #2c2c2c;
-    color: #DDD;
-}
+
 body.dark div#nt-view {
     background: #111;
 }
 body.dark input[type=search] {
-    background: #444 url(/img/icons/search-icon-wt.png) no-repeat 7px center;
-    border: solid 1px rgba(255,255,255,0.2);
+    background: url(/img/icons/search-icon-wt.png) no-repeat 7px center;
 }
-body.light #search input[type=search]:hover {
+body.light input#find[type=search]:hover {
     background-color: #1c1c1c;
 }
-body.light #search input[type=search]:focus {
-    background: #1c1c1c url(/img/icons/search-icon.png) no-repeat 7px center;
+body.light input#find[type=search]:focus {
+    background: url(/img/icons/search-icon.png) no-repeat 7px center;
     color: #DDD;
-    border-color: rgba(255,255,255,.5);
 }
 body.dark .nt-btn span.badge.right {
     background: #111;
     color:#FFF;
 }
+body.dark .nt-view-btn {
+    color:#FFF;
+}
 
 /* LIGHT THEME */
-body.light div#nt-menu {
-    background: #DDD;
-    color: #222;
-}
+
 body.light div#nt-view {
     background: #FFF;
 }
@@ -58,10 +53,10 @@ body.light input[type=search] {
     background: #FFF url(/img/icons/search-icon.png) no-repeat 7px center;
     border: solid 1px rgba(0,0,0,0.2);
 }
-body.light #search input[type=search]:hover {
+body.light input#find[type=search]:hover {
     background-color: #fff;
 }
-body.light #search input[type=search]:focus {
+body.light input#find[type=search]:focus {
     background: #FFF url(/img/icons/search-icon.png) no-repeat 7px center;
     color: #000;
     border-color: rgba(0,0,0,.5);

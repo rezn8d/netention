@@ -1,147 +1,261 @@
 <!doctype html>
 <html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Netention Extended Release Deployment (N.E.R.D)</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
 
-        <link type="text/css" rel="stylesheet" href="/css/normalize.css">
-        <link type="text/css" rel="stylesheet" href="/css/font-awesome.min.css">
-        <link type="text/css" rel="stylesheet" href="/css/netention.css">
-        <link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
-        <script type="text/javascript" src="/js/vendor/modernizr-2.8.3.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <link type="text/css" rel="stylesheet" href="/css/normalize.css">
+    <link type="text/css" rel="stylesheet" href="/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/netention.css">
+    <link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
 
-        <!-- MAIN VIEWPORT -->
-        <div id="nt-view"></div>
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
-        <!-- MAIN MENU -->
-        <div id="nt-menu" class="clearfix visible">
-                <div class="nt-search" title="Search for anything!">
-                    <form id="search">
-                        <input type="search" placeholder="Search">
-                    </form>
-                </div>
-                <div class="nt-view-menu">
-                    <div class="nt-btn-grp"></div>
-                </div>
-                <div class="nt-right-menu">
-                    <div class="nt-btn-grp">
-                        <!-- AVATAR / MENU TOGGLE BUTTON -->
-                        <div id="nt-user" class="nt-btn nt-view-btn">
-                            <img src="/img/netention-256.png" alt="Your Face Here">
-                        </div>
-                    </div>
-                </div>
+
+
+<!-- MAIN MENU -->
+<div id="nt-view-menu">
+    <span class="nt-btn-grp">
+        <input id="find" type="search"/>
+    </span>
+</div>
+
+
+
+<div id="nt-right-menu">
+    <div class="nt-btn-grp">
+        <!-- AVATAR / MENU TOGGLE BUTTON -->
+        <div id="nt-user" class="nt-btn nt-view-btn">
+            <img src="/img/netention-256.png" alt="Your Face Here">
         </div>
+    </div>
+</div>
 
-        <nav class='right animated bounceInDown'>
-          <ul>
-            <li>
-              <a href='#profile'>
+<nav class='right animated bounceInDown'>
+    <ul>
+        <li>
+            <a href='#profile'>
                 <div class='fa fa-user'></div>
                 Profile
-              </a>
-            </li>
-            <li>
-              <a href='#message'>
+            </a>
+        </li>
+        <li>
+            <a href='#message'>
                 <div class='fa fa-envelope'></div>
                 Messages
                 <span class='badge right'>12</span>
-              </a>
-            </li>
-            <li class='sub-menu'>
-              <a href='#settings'>
+            </a>
+        </li>
+        <li class='sub-menu'>
+            <a href='#settings'>
                 <div class='fa fa-gear'></div>
                 Settings
                 <div class='fa fa-caret-down right'></div>
-              </a>
-              <ul>
+            </a>
+            <ul>
                 <li>
-                  <a href='#settings'>
-                    Account
-                  </a>
+                    <a href='#settings'>
+                        Account
+                    </a>
                 </li>
                 <li>
-                  <a href='#settings'>
-                    Profile
-                  </a>
+                    <a href='#settings'>
+                        Profile
+                    </a>
                 </li>
                 <li>
-                  <a href='#settings'>
-                    Secruity &amp; Privacy
-                  </a>
+                    <a href='#settings'>
+                        Secruity &amp; Privacy
+                    </a>
                 </li>
                 <li>
-                  <a href='#settings'>
-                    Password
-                  </a>
+                    <a href='#settings'>
+                        Password
+                    </a>
                 </li>
                 <li>
-                  <a href='#settings'>
-                    Notification
-                  </a>
+                    <a href='#settings'>
+                        Notification
+                    </a>
                 </li>
-              </ul>
-            </li>
-            <li class='sub-menu'>
-              <a href='#message'>
+            </ul>
+        </li>
+        <li class='sub-menu'>
+            <a href='#message'>
                 <div class='fa fa-question-circle'></div>
                 Help
                 <div class='fa fa-caret-down right'></div>
-              </a>
-              <ul>
+            </a>
+            <ul>
                 <li>
-                  <a href='#settings'>
-                    FAQ's
-                  </a>
+                    <a href='#settings'>
+                        FAQ's
+                    </a>
                 </li>
                 <li>
-                  <a href='#settings'>
-                    Submit a Ticket
-                  </a>
+                    <a href='#settings'>
+                        Submit a Ticket
+                    </a>
                 </li>
                 <li>
-                  <a href='#settings'>
-                    Network Status
-                  </a>
+                    <a href='#settings'>
+                        Network Status
+                    </a>
                 </li>
-              </ul>
-            </li>
-            <li>
-              <a href='#message'>
+            </ul>
+        </li>
+        <li>
+            <a href='#message'>
                 <div class='fa fa-sign-out'></div>
                 Logout
-              </a>
-            </li>
-          </ul>
-        </nav>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- MAIN VIEWPORT -->
+<div id="nt-view">
+    <div id="loading">LOADING</div>
+</div>
+
+<script type="text/javascript" src="lib/LAB.min.js"></script>
+<script type="text/javascript">
+    $LAB
+        .script("lib/jquery.slim.min.js")
+        .script("lib/lodash.min.js")
+        .script("lib/modernizr.min.js")
+        .script("netention.js")
+        .wait()
+        .wait(() => {
+        $(()=>{
+            $('#loading').hide();
+
+            const netentionOptions = new NClient({
+                network: [
+                    "localhost:8081"
+                ],
+                //"ServerType": "0",
+                //  0 = Global (node + full network)
+                //  1 = Mirror (support global network),
+                //  2 = Independent (node only, no network),
+
+                //server.privacy = {
+                //  "AllowAnonymousLogin": true,
+                //  "MinPrivacyLevel", "MaxPrivacyLevel" // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+                //}
+
+                view: [
+                    {
+                        //var mapBtn = $('<div id="map" class="nt-btn nt-view-btn" title="Map / 3D Globe (geolocation)"><i class="fa fa-2x fa-map-marker"></i><span class="visuallyhidden">Map</span></div>').appendTo(viewMenu);
+                        "I": "map3D",
+                        "N": "3D Earth",
+                        "_": "Cesium.js",
+                        "icon": "fa-map-marker"
+                    },
+                    {
+                        //var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').appendTo(viewMenu);
+                        "I": "list",
+                        "N": "List",
+                        "icon": "fa-th-list"
+                    }
+                ],
+
+                // PRIVACY
+                privacy: {
+                    // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+                    'levelDefault': 1
+                },
+                memory: {
+                    'durationDefault': Infinity,
+                    // determine the default license for posted Nobjects
+                    //"this message should be destructed at"
+                    //"5 minutes"
+                    //"10 days"
+                    'license': "AGPL"
+                    //'Creative
+                },
+
+                // VIEWS
+                "IncludeFeed": true,
+                "IncludeGraph": true,
+                "IncludeMap": true,
+                "IncludeTimeline": true,
+                // USERS
+                "AllowUserHomepage": true,
+                "AllowInstantMessaging": true,
+                "AllowVoice": true,
+                "AllowVideo": true,
+                // ADDONS
+                "DefaultTheme": "dark", // Options: "dark" or "light"
+                "AllowThemes": true,
+                "AllowPlugins": true
+            });
 
 
+            // Set Theme
+            $('body').addClass(netentionOptions.DefaultTheme);
 
-        <script type="text/javascript" src="/js/vendor/jquery-1.12.0.min.js"></script>
-        <script type="text/javascript" src="/js/plugins.js"></script>
-        <script type="text/javascript" src="/netention.js"></script>
+            $('#nt-user').on('click', function () {
+                var mn = $('nav.right');
+                if (mn.hasClass('visible')) {
+                    mn.removeClass('visible');
+                    $(this).removeClass('active');
+                } else {
+                    mn.addClass('visible');
+                    $(this).addClass('active');
+                }
+            });
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <!--
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='https://www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-        </script>
-        -->
-    </body>
+            $('.sub-menu ul').hide();
+            $(".sub-menu a").click(function () {
+                if ($(this).parent(".sub-menu").children("ul").is(":visible")) {
+                    $(this).parent(".sub-menu").children("ul").hide();
+                    $(this).find(".right").removeClass("fa-caret-down").addClass("fa-caret-up");
+                } else {
+                    $(this).parent(".sub-menu").children("ul").show();
+                    $(this).find(".right").removeClass("fa-caret-up").addClass("fa-caret-down");
+                }
+            });
+
+            var viewMenu = $('#nt-view-menu .nt-btn-grp');
+            var rightMenu = $('#nt-right-menu .nt-btn-grp');
+
+            // FEED
+            if (netentionOptions.IncludeFeed === true) {
+                var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').prependTo(viewMenu);
+            }
+
+
+            // GRAPH
+            if (netentionOptions.IncludeGraph === true) {
+                var graphBtn = $('<div id="graph" class="nt-btn nt-view-btn" title="Graph (relationship mapping)"><i class="fa fa-2x fa-code-fork"></i><span class="visuallyhidden">Graph</span></div>').prependTo(viewMenu);
+            }
+
+            // TIMELINE
+            if (netentionOptions.IncludeTimeline === true) {
+                var timelineBtn = $('<div id="timeline" class="nt-btn nt-view-btn" title="Timeline (chronological)"><i class="fa fa-2x fa-clock-o"></i><span class="visuallyhidden">Timeline</span></div>').prependTo(viewMenu);
+            }
+
+            if (netentionOptions.AllowInstantMessaging === true) {
+                var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
+            }
+
+            if (netentionOptions.AllowUserHomepage === true) {
+                var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
+            }
+        });
+
+    });
+</script>
+
+
+</body>
 </html>
