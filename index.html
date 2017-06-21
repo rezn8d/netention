@@ -6,153 +6,168 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
 </head>
 
-<script type="text/javascript" src="lib/LAB.min.js"></script>
+<script type="text/javascript" src="lib/lazyload.min.js"></script>
 <script type="text/javascript">
     "use strict";
-    $LAB
-        .script("lib/jquery.slim.min.js")
-        .wait(() => {
-            $(() => {
-                $LAB
-                    .script("lib/lodash.min.js")
-                    .script("lib/modernizr.min.js")                    .script("netention.js")
-                    .script("list.js")
-                    .script("map2d.js")
-                    .script("spacegraph.js")
-                    .wait()
-                    .wait(() => {
-                        $('#loading').hide();
-
-                        const netentionOptions = new NClient({
-                            network: [
-                                "localhost:8081"
-                            ],
-                            //"ServerType": "0",
-                            //  0 = Global (node + full network)
-                            //  1 = Mirror (support global network),
-                            //  2 = Independent (node only, no network),
-
-                            //server.privacy = {
-                            //  "AllowAnonymousLogin": true,
-                            //  "MinPrivacyLevel", "MaxPrivacyLevel" // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
-                            //}
-
-                            view: [
-                                {
-                                    //var mapBtn = $('<div id="map" class="nt-btn nt-view-btn" title="Map / 3D Globe (geolocation)"><i class="fa fa-2x fa-map-marker"></i><span class="visuallyhidden">Map</span></div>').appendTo(viewMenu);
-                                    "I": "map3D",
-                                    "N": "3D Earth",
-                                    "_": "Cesium.js",
-                                    "icon": "fa-map-marker"
-                                },
-                                {
-                                    //var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').appendTo(viewMenu);
-                                    "I": "list",
-                                    "N": "List",
-                                    "icon": "fa-th-list"
-                                }
-                            ],
-
-                            // PRIVACY
-                            privacy: {
-                                // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
-                                'levelDefault': 1
-                            },
-                            memory: {
-                                'durationDefault': Infinity,
-                                // determine the default license for posted Nobjects
-                                //"this message should be destructed at"
-                                //"5 minutes"
-                                //"10 days"
-                                'license': "AGPL"
-                                //'Creative
-                            },
-
-                            // VIEWS
-                            "IncludeFeed": true,
-                            "IncludeGraph": true,
-                            "IncludeMap": true,
-                            "IncludeTimeline": true,
-                            // USERS
-                            "AllowUserHomepage": true,
-                            "AllowInstantMessaging": true,
-                            "AllowVoice": true,
-                            "AllowVideo": true,
-                            // ADDONS
-                            "DefaultTheme": "dark", // Options: "dark" or "light"
-                            "AllowThemes": true,
-                            "AllowPlugins": true
-                        });
 
 
-                        // Set Theme
-                        $('body').addClass(netentionOptions.DefaultTheme);
+    LazyLoad.js([
+        "lib/jquery.slim.min.js",
+        "lib/lodash.min.js",
+        "lib/modernizr.min.js",
+        "lib/slim.min.js",
+        "lib/pnotify.custom.min.js",
+        'lib/dat.gui.min.js'
 
-                        $('#nt-user').on('click', function () {
-                            var mn = $('nav.right');
-                            if (mn.hasClass('visible')) {
-                                mn.removeClass('visible');
-                                $(this).removeClass('active');
-                            } else {
-                                mn.addClass('visible');
-                                $(this).addClass('active');
-                            }
-                        });
+    ], () => {
 
-                        $('.sub-menu ul').hide();
-                        $(".sub-menu a").click(function () {
-                            if ($(this).parent(".sub-menu").children("ul").is(":visible")) {
-                                $(this).parent(".sub-menu").children("ul").hide();
-                                $(this).find(".right").removeClass("fa-caret-down").addClass("fa-caret-up");
-                            } else {
-                                $(this).parent(".sub-menu").children("ul").show();
-                                $(this).find(".right").removeClass("fa-caret-up").addClass("fa-caret-down");
-                            }
-                        });
+        LazyLoad.js([
 
-                        var viewMenu = $('#nt-view-menu .nt-btn-grp');
-                        var rightMenu = $('#nt-right-menu .nt-btn-grp');
+            "util.js",
+            "graph.js",
+            "netention.js",
+            "memory.js",
+            "memory.pouchdb.js",
+            "list.js",
+            "map2d.js",
+            "spacegraph.js"], () => {
 
-                        // FEED
-                        if (netentionOptions.IncludeFeed === true) {
-                            var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').prependTo(viewMenu);
-                        }
+            $('#loading').hide();
 
-
-                        // GRAPH
-                        if (netentionOptions.IncludeGraph === true) {
-                            var graphBtn = $('<div id="graph" class="nt-btn nt-view-btn" title="Graph (relationship mapping)"><i class="fa fa-2x fa-code-fork"></i><span class="visuallyhidden">Graph</span></div>').prependTo(viewMenu);
-                        }
-
-                        // TIMELINE
-                        if (netentionOptions.IncludeTimeline === true) {
-                            var timelineBtn = $('<div id="timeline" class="nt-btn nt-view-btn" title="Timeline (chronological)"><i class="fa fa-2x fa-clock-o"></i><span class="visuallyhidden">Timeline</span></div>').prependTo(viewMenu);
-                        }
-
-                        if (netentionOptions.AllowInstantMessaging === true) {
-                            var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
-                        }
-
-                        if (netentionOptions.AllowUserHomepage === true) {
-                            var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
-                        }
-
-
-                        //console.info(SpaceGraphView);
-                        new SpaceGraphView().build({}, $('#nt-view'));
-                    });
+            new PNotify({
+                title: 'Ready',
+                text: '..',
+                type: 'success'
             });
+
+            const netentionOptions = new NClient({
+                network: [
+                    "localhost:8081"
+                ],
+                //"ServerType": "0",
+                //  0 = Global (node + full network)
+                //  1 = Mirror (support global network),
+                //  2 = Independent (node only, no network),
+
+                //server.privacy = {
+                //  "AllowAnonymousLogin": true,
+                //  "MinPrivacyLevel", "MaxPrivacyLevel" // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+                //}
+
+                view: [
+                    {
+                        //var mapBtn = $('<div id="map" class="nt-btn nt-view-btn" title="Map / 3D Globe (geolocation)"><i class="fa fa-2x fa-map-marker"></i><span class="visuallyhidden">Map</span></div>').appendTo(viewMenu);
+                        "I": "map3D",
+                        "N": "3D Earth",
+                        "_": "Cesium.js",
+                        "icon": "fa-map-marker"
+                    },
+                    {
+                        //var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').appendTo(viewMenu);
+                        "I": "list",
+                        "N": "List",
+                        "icon": "fa-th-list"
+                    }
+                ],
+
+                // PRIVACY
+                privacy: {
+                    // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+                    'levelDefault': 1
+                },
+                memory: {
+                    'durationDefault': Infinity,
+                    // determine the default license for posted Nobjects
+                    //"this message should be destructed at"
+                    //"5 minutes"
+                    //"10 days"
+                    'license': "AGPL"
+                    //'Creative
+                },
+
+                // VIEWS
+                "IncludeFeed": true,
+                "IncludeGraph": true,
+                "IncludeMap": true,
+                "IncludeTimeline": true,
+                // USERS
+                "AllowUserHomepage": true,
+                "AllowInstantMessaging": true,
+                "AllowVoice": true,
+                "AllowVideo": true,
+                // ADDONS
+                "DefaultTheme": "dark", // Options: "dark" or "light"
+                "AllowThemes": true,
+                "AllowPlugins": true
+            });
+
+
+            // Set Theme
+            $('body').addClass(netentionOptions.DefaultTheme);
+
+            $('#nt-user').on('click', function () {
+                var mn = $('nav.right');
+                if (mn.hasClass('visible')) {
+                    mn.removeClass('visible');
+                    $(this).removeClass('active');
+                } else {
+                    mn.addClass('visible');
+                    $(this).addClass('active');
+                }
+            });
+
+            $('.sub-menu ul').hide();
+            $(".sub-menu a").click(function () {
+                if ($(this).parent(".sub-menu").children("ul").is(":visible")) {
+                    $(this).parent(".sub-menu").children("ul").hide();
+                    $(this).find(".right").removeClass("fa-caret-down").addClass("fa-caret-up");
+                } else {
+                    $(this).parent(".sub-menu").children("ul").show();
+                    $(this).find(".right").removeClass("fa-caret-up").addClass("fa-caret-down");
+                }
+            });
+
+            var viewMenu = $('#nt-view-menu .nt-btn-grp');
+            var rightMenu = $('#nt-right-menu .nt-btn-grp');
+
+            // FEED
+            if (netentionOptions.IncludeFeed === true) {
+                var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').prependTo(viewMenu);
+            }
+
+
+            // GRAPH
+            if (netentionOptions.IncludeGraph === true) {
+                var graphBtn = $('<div id="graph" class="nt-btn nt-view-btn" title="Graph (relationship mapping)"><i class="fa fa-2x fa-code-fork"></i><span class="visuallyhidden">Graph</span></div>').prependTo(viewMenu);
+            }
+
+            // TIMELINE
+            if (netentionOptions.IncludeTimeline === true) {
+                var timelineBtn = $('<div id="timeline" class="nt-btn nt-view-btn" title="Timeline (chronological)"><i class="fa fa-2x fa-clock-o"></i><span class="visuallyhidden">Timeline</span></div>').prependTo(viewMenu);
+            }
+
+            if (netentionOptions.AllowInstantMessaging === true) {
+                var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
+            }
+
+            if (netentionOptions.AllowUserHomepage === true) {
+                var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
+            }
+
+
+            //console.info(SpaceGraphView);
+            new SpaceGraphView().build({}, $('#nt-view'));
         });
+    });
 
 
 </script>
 <link type="text/css" rel="stylesheet" href="/css/normalize.css">
 <link type="text/css" rel="stylesheet" href="/css/font-awesome.min.css">
+<link type="text/css" rel="stylesheet" href="/lib/pnotify.custom.min.css">
+
 <link type="text/css" rel="stylesheet" href="/css/netention.css">
 <link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
 
@@ -160,7 +175,7 @@
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade"><strong>Upgrade</strong> browser <a href="http://browsehappy.com/">to improve
-    </a> experience.</p>
+</a> experience.</p>
 <![endif]-->
 
 <!-- MAIN VIEWPORT -->
@@ -266,7 +281,6 @@
         </li>
     </ul>
 </nav>
-
 
 
 </body>
