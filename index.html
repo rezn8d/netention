@@ -8,135 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <link type="text/css" rel="stylesheet" href="/css/normalize.css">
-    <link type="text/css" rel="stylesheet" href="/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="/css/netention.css">
-    <link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
 
 </head>
-<body>
-<!--[if lt IE 8]>
-<p class="browserupgrade"><strong>Upgrade</strong> browser <a href="http://browsehappy.com/">to improve
-    </a> experience.</p>
-<![endif]-->
-
-<!-- MAIN VIEWPORT -->
-<div id="nt-view">
-    <div id="loading">LOADING</div>
-</div>
-
-<!-- MAIN MENU -->
-<div id="nt-view-menu">
-    <span class="nt-btn-grp">
-        <input id="find" type="search"/>
-    </span>
-</div>
-
-
-<div id="nt-right-menu">
-    <div class="nt-btn-grp">
-        <!-- AVATAR / MENU TOGGLE BUTTON -->
-        <div id="nt-user" class="nt-btn nt-view-btn">
-            <img src="/img/netention-256.png" alt="Your Face Here">
-        </div>
-    </div>
-</div>
-
-<nav class='right animated bounceInDown'>
-    <ul>
-        <li>
-            <a href='#profile'>
-                <div class='fa fa-user'></div>
-                Profile
-            </a>
-        </li>
-        <li>
-            <a href='#message'>
-                <div class='fa fa-envelope'></div>
-                Messages
-                <span class='badge right'>12</span>
-            </a>
-        </li>
-        <li class='sub-menu'>
-            <a href='#settings'>
-                <div class='fa fa-gear'></div>
-                Settings
-                <div class='fa fa-caret-down right'></div>
-            </a>
-            <ul>
-                <li>
-                    <a href='#settings'>
-                        Account
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Profile
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Secruity &amp; Privacy
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Password
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Notification
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class='sub-menu'>
-            <a href='#message'>
-                <div class='fa fa-question-circle'></div>
-                Help
-                <div class='fa fa-caret-down right'></div>
-            </a>
-            <ul>
-                <li>
-                    <a href='#settings'>
-                        FAQ's
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Submit a Ticket
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Network Status
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href='#message'>
-                <div class='fa fa-sign-out'></div>
-                Logout
-            </a>
-        </li>
-    </ul>
-</nav>
-
 
 <script type="text/javascript" src="lib/LAB.min.js"></script>
 <script type="text/javascript">
     "use strict";
     $LAB
         .script("lib/jquery.slim.min.js")
-        .script("lib/lodash.min.js")
-        .script("lib/modernizr.min.js")
-        .wait()
         .wait(() => {
             $(() => {
                 $LAB
-                    .script("netention.js")
+                    .script("lib/lodash.min.js")
+                    .script("lib/modernizr.min.js")                    .script("netention.js")
                     .script("list.js")
                     .script("map2d.js")
                     .script("spacegraph.js")
@@ -267,6 +151,122 @@
 
 
 </script>
+<link type="text/css" rel="stylesheet" href="/css/normalize.css">
+<link type="text/css" rel="stylesheet" href="/css/font-awesome.min.css">
+<link type="text/css" rel="stylesheet" href="/css/netention.css">
+<link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
+
+
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade"><strong>Upgrade</strong> browser <a href="http://browsehappy.com/">to improve
+    </a> experience.</p>
+<![endif]-->
+
+<!-- MAIN VIEWPORT -->
+<div id="nt-view">
+    <div id="loading">LOADING</div>
+</div>
+
+<!-- MAIN MENU -->
+<div id="nt-view-menu">
+    <span class="nt-btn-grp">
+        <input id="find" type="search"/>
+    </span>
+</div>
+
+
+<div id="nt-right-menu">
+    <div class="nt-btn-grp">
+        <!-- AVATAR / MENU TOGGLE BUTTON -->
+        <div id="nt-user" class="nt-btn nt-view-btn">
+            <img src="/img/netention-256.png" alt="Your Face Here">
+        </div>
+    </div>
+</div>
+
+<nav class='right animated bounceInDown'>
+    <ul>
+        <li>
+            <a href='#profile'>
+                <div class='fa fa-user'></div>
+                Profile
+            </a>
+        </li>
+        <li>
+            <a href='#message'>
+                <div class='fa fa-envelope'></div>
+                Messages
+                <span class='badge right'>12</span>
+            </a>
+        </li>
+        <li class='sub-menu'>
+            <a href='#settings'>
+                <div class='fa fa-gear'></div>
+                Settings
+                <div class='fa fa-caret-down right'></div>
+            </a>
+            <ul>
+                <li>
+                    <a href='#settings'>
+                        Account
+                    </a>
+                </li>
+                <li>
+                    <a href='#settings'>
+                        Profile
+                    </a>
+                </li>
+                <li>
+                    <a href='#settings'>
+                        Secruity &amp; Privacy
+                    </a>
+                </li>
+                <li>
+                    <a href='#settings'>
+                        Password
+                    </a>
+                </li>
+                <li>
+                    <a href='#settings'>
+                        Notification
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class='sub-menu'>
+            <a href='#message'>
+                <div class='fa fa-question-circle'></div>
+                Help
+                <div class='fa fa-caret-down right'></div>
+            </a>
+            <ul>
+                <li>
+                    <a href='#settings'>
+                        FAQ's
+                    </a>
+                </li>
+                <li>
+                    <a href='#settings'>
+                        Submit a Ticket
+                    </a>
+                </li>
+                <li>
+                    <a href='#settings'>
+                        Network Status
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href='#message'>
+                <div class='fa fa-sign-out'></div>
+                Logout
+            </a>
+        </li>
+    </ul>
+</nav>
+
 
 
 </body>
