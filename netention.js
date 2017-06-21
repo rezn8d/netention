@@ -1,7 +1,11 @@
 "use strict";
 /*jslint node: true */
 /* jshint multistr: true, browser: true */
-/* globals $:false, Cesium:false, nobjectsIn:false, console:false, Self:false, layers:false, _:false */
+
+
+if (!window.N)
+    window.N = { };
+
 
 /** the client-side configuration state */
 class NClient {
@@ -13,6 +17,25 @@ class NClient {
 
 }
 
+class NView {
+
+    constructor() {
+
+    }
+
+    /**
+     * @param me netention context
+     * @param target element to append to
+     * creates a new instance of the view
+     * can return something which has a method .stop() which will be called prior to destruction */
+    build(me, target) {
+
+    }
+
+}
+
+window.N.Client = NClient;
+window.N.View = NView;
 
 
 var sampleNobjects = {
