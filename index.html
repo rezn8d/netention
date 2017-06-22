@@ -38,7 +38,6 @@
             $('#loading').hide();
 
 
-
             const I = window.I = new NClient({
 //                network: [
 //                    "localhost:8081"
@@ -101,7 +100,6 @@
             });
 
 
-
             // Set Theme
             $('body').addClass(I.DefaultTheme);
 
@@ -154,20 +152,29 @@
                 var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
             }
 
-            I.net.add(new PouchDBMemory());
+            //I.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
 
-            I.net.add(new PouchDBMemory("http://localhost:5984/doc"));
+            //I.net.add( new PouchDBMemory( ((PouchDB)=>new PouchDB('dbname', {adapter: 'memory'})) ) ); //MemDown
 
-            I.net.add(new SpimeDBMemory("http://localhost:8080"));
+            I.mem.add(new PouchDBMemory(
+                //"http://localhost:5984/doc"
+                "http://ana:5984/doc"
+            ));
+
+            //I.mem.add(new SpimeDBMemory("http://localhost:8080"));
 
 
+//            new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
+//            new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
 
+            let VIEW = $('#view');
 
-            new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
-            new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
+            setTimeout(() =>
+                new TableView().build(I, VIEW).query("sseehh")
+            , 2000);
 
-            //new CesiumView().build({}, $('#view'));
-            //new SpaceGraphView().build({}, $('#overlay'));
+            //new CesiumView().build(I, VIEW);
+            //new SpaceGraphView().build(I, VIEW);
         });
     });
 

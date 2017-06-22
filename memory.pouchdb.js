@@ -6,13 +6,12 @@ $.LAB
 */
 
 
-var MEMORY_SIZE = 256;
-
 var N = window.N;
 
-class PouchDBMemory {
+class PouchDBMemory extends Memory {
 
-    constructor(pouchBuilder="spime") {
+    constructor(pouchBuilder = "") {
+        super('pouch:' + pouchBuilder);
         this.pouchBuilder = pouchBuilder;
     }
 
@@ -24,57 +23,126 @@ class PouchDBMemory {
 
         const that = this;
 
-        LazyLoad.js(['lib/pouchdb.min.js', 'lib/pouchdb.find.min.js', 'lib/geopouch.js' ], ()=>{
+        LazyLoad.js('lib/pouchdb.min.js', () => {
+            LazyLoad.js(['memory.min.js', 'find.min.js', 'quick-search.min.js'].map(x => 'lib/pouchdb.' + x), () => {
 
-            //PouchDB.plugin(require('geopouch'));
-
-            if (typeof(that.pouchBuilder)==="string") {
-                that.db = new PouchDB(that.pouchBuilder)
-            } else {
-                that.db = that.pouchBuilder(PouchDB);
-            }
-            const db = that.db;
-
-            I.info([ 'start', 'PouchDB' ]);
-
-            db.changes({
-                since: 'now',
-                live: true,
-                include_docs: true
-            }).on('change', function (change) {
-
-
-                // change.id contains the doc id, change.doc contains the doc
-                if (change.deleted) {
-                    // document was deleted
-                    //console.log('delete', change);
+                if (typeof(that.pouchBuilder) === "string") {
+                    that.db = new PouchDB(that.pouchBuilder)
                 } else {
-                    // document was added/modified
-                    //console.log('change', change);
+                    that.db = that.pouchBuilder(PouchDB);
                 }
-            });
-            /*.on('error', function (err) {
-                        // handle errors
-                    });*/
+                const db = that.db;
 
+                // db.search({
+                //     fields: ['I', 'N'],
+                //     build: true
+                // }).then(function (info) {
+                //     // if build was successful, info is {"ok": true}
+                //     //console.log(info);
+                // }).catch(function (err) {
+                //     console.warn(err);
+                // });
+
+
+                db.changes({
+                    since: 'now',
+                    live: true,
+                    include_docs: true
+                }).on('change', function (change) {
+
+
+                    // change.id contains the doc id, change.doc contains the doc
+                    if (change.deleted) {
+                        // document was deleted
+                        //console.log('delete', change);
+                    } else {
+                        // document was added/modified
+                        //console.log('change', change);
+                    }
+                });
+                /*.on('error', function (err) {
+                            // handle errors
+                        });*/
+
+                db.info().then(function (info) {
+                    console.log(that.id, info);
+                });
+
+                I.info(['start', this.id]);
+
+            });
         });
     }
 
 
+    put(x) {
+        this.ADD(x);
+    }
+
+    get(query, each) {
+        if (!this.db)
+            return; //not connected yet TODO queue it
+
+        //console.log('get', query, each);
+
+        const db = this.db;
+
+        function process(info) {
+            if (info.rows) {
+                info.rows.forEach(r => {
+                    each(r.doc);
+                });
+            }
+        }
+
+        if (!db._remote) {
+            db.search({
+                query: query,
+                fields: ['I', 'N'/*, '_'*/],
+                //limit: 10,
+                include_docs: true
+                //skip: 20
+            }).then(function (info) {
+                //console.log(query, info);
+                process(info);
+            }).catch(function (err) {
+                console.warn(err);
+            });
+        } else {
+            //for some reason, full-text search doesnt work on remotes
+            db.allDocs({
+                startkey: query,
+                endkey: query + '\uffff',
+                include_docs: true
+            }).then((info)=>{
+                process(info);
+            });
+        }
+
+        // const that = this;
+        // this.db.bulkDocs([
+        //     {_id: 'marin'},
+        //     {_id: 'mario'},
+        //     {_id: 'marth'},
+        //     {_id: 'mushroom'},
+        //     {_id: 'zelda'}
+        // ]).then(function () {
+        //     that.db.allDocs({
+        //         startkey: 'mar',
+        //         endkey: 'mar\uffff'
+        //     }).then((x)=>{
+        //         console.log(x);
+        //     });
+        // });
+    }
+
     ADD(n) {
+        if (!this.db)
+            return; //not ready yet or something //TODO enqueue
+
         const id = n.I;
         if (!id)
             throw new Error("missing ID");
-
-        var y;
-        var x = this.get(id);
-        if (x) {
-            if (!(y = x).update(n))
-                return y; //no changes that should update db
-        } else {
-            y = new NObject(n);
-            this.set(id, y); //update LFU cache by reinserting
-        }
 
 
         this.db.upsert(id, (d) => {
@@ -95,8 +163,6 @@ class PouchDBMemory {
             console.error(err)
         });
 
-
-        return y;
     }
 
 

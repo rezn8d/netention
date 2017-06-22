@@ -1,11 +1,12 @@
-class SpimeDBMemory {
+class SpimeDBMemory extends Memory {
 
     constructor(url) {
+        super('spimedb:' + url);
         this.url = url;
     }
 
     start(I) {
-        I.info([ 'start', 'SpimeDB', this.url ]);
+        I.info([ 'start', this.id ]);
     }
 
 

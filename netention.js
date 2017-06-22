@@ -7,23 +7,64 @@ if (!window.N)
     window.N = { };
 
 
-/* network manager */
-class Net extends Set {
+class Memory {
+
+    constructor(id) {
+        this.id = id;
+    }
+
+    toString() {
+        return 'memory:' + this.id;
+    }
+
+    /** attempt to asynch "put"/send/share a nobject into memory */
+    put(x) {
+
+    }
+
+    get(query, each) {
+
+    }
+
+    start(i) {
+
+    }
+
+    stop() {
+
+    }
+}
+
+/* network router */
+class Memorouter extends Memory {
 
     constructor(me) {
-        super();
+        super('router:' + me);
         this.me = me;
+        this.active = new Set();
+    }
+
+    put(x) {
+        this.active.forEach(a => {
+           a.put(x);
+        });
+    }
+
+    get(query, each) {
+        this.active.forEach(a => {
+            a.get(query, each);
+        });
     }
 
     add(connection) {
-        if (super.add(connection)) {
+        if (this.active.add(connection)) {
             connection.start(this.me);
             this.me.emit('connect', connection);
         }
     }
 
     remove(connection) {
-        if (super.remove(connection)) {
+        if (this.active.remove(connection)) {
             connection.stop();
             this.me.emit('disconnect', connection);
         }
@@ -39,7 +80,7 @@ class NClient extends EventEmitter {
 
         _.assign(this, opt);
 
-        this.net = new Net(this);
+        this.mem = new Memorouter(this);
 
         this.on('info', (x)=>{
             var notice = new PNotify({
@@ -55,6 +96,10 @@ class NClient extends EventEmitter {
             });
         });
 
+        this.on(['connect', 'disconnect'], (x)=>{
+           this.info(x);
+        });
+
         this.info('Ready');
 
     }
@@ -66,6 +111,8 @@ class NClient extends EventEmitter {
     }
 
 }
+
+
 
 // var example = {
 //     n: 1,
