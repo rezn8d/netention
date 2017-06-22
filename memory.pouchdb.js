@@ -12,27 +12,36 @@ class PouchDBMemory {
 
     constructor() {
 
-        const db = this.db = new pouch("spime");
-        console.log(db);
+    }
 
-        db.changes({
-            since: 'now',
-            live: true,
-            include_docs: true
-        }).on('change', function (change) {
-            // change.id contains the doc id, change.doc contains the doc
-            if (change.deleted) {
-                // document was deleted
-                //console.log('delete', change);
-            } else {
-                // document was added/modified
-                //console.log('change', change);
-            }
-        })
-        /*.on('error', function (err) {
-                    // handle errors
-                });*/
+    start(I) {
 
+        LazyLoad.js('lib/pouchdb.min.js', ()=>{
+            const db = this.db = new PouchDB("spime");
+
+            I.info([ 'start', 'PouchDB' ]);
+
+            db.changes({
+                since: 'now',
+                live: true,
+                include_docs: true
+            }).on('change', function (change) {
+
+
+                // change.id contains the doc id, change.doc contains the doc
+                if (change.deleted) {
+                    // document was deleted
+                    //console.log('delete', change);
+                } else {
+                    // document was added/modified
+                    //console.log('change', change);
+                }
+            })
+            /*.on('error', function (err) {
+                        // handle errors
+                    });*/
+
+        });
     }
 
 

@@ -7,16 +7,85 @@ if (!window.N)
     window.N = { };
 
 
+/* network manager */
+class Net extends Set {
+
+    constructor(me) {
+        super();
+        this.me = me;
+    }
+
+    add(connection) {
+        if (super.add(connection)) {
+            connection.start(this.me);
+            this.me.emit('connect', connection);
+        }
+    }
+
+    remove(connection) {
+        if (super.remove(connection)) {
+            connection.stop();
+            this.me.emit('disconnect', connection);
+        }
+    }
+}
+
 /** the client-side configuration state */
-class NClient {
+class NClient extends EventEmitter {
+
 
     constructor(opt={}) {
+        super();
 
         _.assign(this, opt);
+
+        this.net = new Net(this);
+
+        this.on('info', (x)=>{
+            var notice = new PNotify({
+                title: x,
+                type: 'info',
+                buttons: {
+                    closer: false,
+                    sticker: false
+                }
+            });
+            notice.get().click(function() {
+                notice.remove();
+            });
+        });
+
+        this.info('Ready');
+
+    }
+
+    info(msg) {
+        if (typeof(msg)!=="string")
+            msg = JSON.stringify(msg, null, 2);
+        this.emit('info', msg);
     }
 
 }
 
+// var example = {
+//     n: 1,
+//     s: 'a',
+//     f: function () {
+//         console.info(this, arguments);
+//         return 123;
+//     }
+// };
+// var observed = new ObservableObject(example, {
+//     emitOnEachPropChange: true,
+//     emitSummaryChanges: true
+// });
+//
+//
+// observed.on('change:q', x => console.info('CHANGE:q', x));
+// observed.on('change', x => console.info('CHANGE', x));
+//
+// observed.n = 5;
+// observed.q = 'new q value';
 
 
 class NView {
@@ -238,58 +307,6 @@ class NIcon {
             'font-size:' + (75.0 + 20 * (Math.log(1 + s))) + '%');
         return this;
     }
-}
-
-function SpimeSocket(path, add) {
-
-    const defaultHostname = window.location.hostname || 'localhost';
-    const defaultWSPort = window.location.port || 8080;
-    const options = undefined;
-
-    /** creates a websocket connection to a path on the server that hosts the currently visible webpage */
-    const ws = new ReconnectingWebSocket(
-        'ws://' + defaultHostname + ':' + defaultWSPort + '/' + path,
-        null /* protocols */,
-        options); //{
-    //Options: //https://github.com/joewalnes/reconnecting-websocket/blob/master/reconnecting-websocket.js#L112
-    /*
-     // The number of milliseconds to delay before attempting to reconnect.
-     reconnectInterval: 1000,
-     // The maximum number of milliseconds to delay a reconnection attempt.
-     maxReconnectInterval: 30000,
-     // The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist.
-     reconnectDecay: 1.5,
-
-     // The maximum time in milliseconds to wait for a connection to succeed before closing and retrying.
-     timeoutInterval: 2000,
-     */
-    //});
-
-    ws.binaryType = 'arraybuffer';
-
-    ws.onopen = function () {
-
-        add('websocket connect');
-
-    };
-
-    ws.onmessage = m => add(msgpack.decode(new Uint8Array(m.data)));
-
-    // ws.onmessage = function (e) {
-    //     try {
-    //         var c = e.data;
-    //         var d = JSON.parse(c);
-    //         add(d);
-    //     } catch (e) {
-    //         add(c);
-    //     }
-    // };
-
-    ws.onclose = e => add(['Websocket disconnected', e]);
-
-    ws.onerror = e => add(["Websocket error", e]);
-
-    return ws;
 }
 
 

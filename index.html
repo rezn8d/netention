@@ -16,36 +16,33 @@
     LazyLoad.js([
         "lib/jquery.slim.min.js",
         "lib/lodash.min.js",
-        "lib/modernizr.min.js",
+        "util.js",
         "lib/slim.min.js",
+        "lib/modernizr.min.js",
         "lib/pnotify.custom.min.js",
-        'lib/dat.gui.min.js'
-
+        'lib/dat.gui.min.js',
+        "lib/eventemitter3.min.js"
     ], () => {
 
         LazyLoad.js([
 
-            "util.js",
             "graph.js",
             "netention.js",
-            "memory.js",
             "memory.pouchdb.js",
+            "memory.spimedb.js",
             "list.js",
             "map2d.js",
+            "map3d.js",
             "spacegraph.js"], () => {
 
             $('#loading').hide();
 
-            new PNotify({
-                title: 'Ready',
-                text: '..',
-                type: 'success'
-            });
 
-            const netentionOptions = new NClient({
-                network: [
-                    "localhost:8081"
-                ],
+
+            const I = window.I = new NClient({
+//                network: [
+//                    "localhost:8081"
+//                ],
                 //"ServerType": "0",
                 //  0 = Global (node + full network)
                 //  1 = Mirror (support global network),
@@ -104,8 +101,9 @@
             });
 
 
+
             // Set Theme
-            $('body').addClass(netentionOptions.DefaultTheme);
+            $('body').addClass(I.DefaultTheme);
 
             $('#nt-user').on('click', function () {
                 var mn = $('nav.right');
@@ -133,32 +131,36 @@
             var rightMenu = $('#nt-right-menu .nt-btn-grp');
 
             // FEED
-            if (netentionOptions.IncludeFeed === true) {
+            if (I.IncludeFeed === true) {
                 var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').prependTo(viewMenu);
             }
 
 
             // GRAPH
-            if (netentionOptions.IncludeGraph === true) {
+            if (I.IncludeGraph === true) {
                 var graphBtn = $('<div id="graph" class="nt-btn nt-view-btn" title="Graph (relationship mapping)"><i class="fa fa-2x fa-code-fork"></i><span class="visuallyhidden">Graph</span></div>').prependTo(viewMenu);
             }
 
             // TIMELINE
-            if (netentionOptions.IncludeTimeline === true) {
+            if (I.IncludeTimeline === true) {
                 var timelineBtn = $('<div id="timeline" class="nt-btn nt-view-btn" title="Timeline (chronological)"><i class="fa fa-2x fa-clock-o"></i><span class="visuallyhidden">Timeline</span></div>').prependTo(viewMenu);
             }
 
-            if (netentionOptions.AllowInstantMessaging === true) {
+            if (I.AllowInstantMessaging === true) {
                 var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
             }
 
-            if (netentionOptions.AllowUserHomepage === true) {
+            if (I.AllowUserHomepage === true) {
                 var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
             }
 
+            I.net.add(new PouchDBMemory());
+            I.net.add(new SpimeDBMemory("http://localhost:8080"));
 
-            //console.info(SpaceGraphView);
-            new SpaceGraphView().build({}, $('#nt-view'));
+
+
+            new CesiumView().build({}, $('#view'));
+            //new SpaceGraphView().build({}, $('#overlay'));
         });
     });
 
@@ -179,9 +181,14 @@
 <![endif]-->
 
 <!-- MAIN VIEWPORT -->
-<div id="nt-view">
+<div id="view">
     <div id="loading">LOADING</div>
 </div>
+
+<!--<div id="overlay">-->
+
+<!--</div>-->
+
 
 <!-- MAIN MENU -->
 <div id="nt-view-menu">

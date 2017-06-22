@@ -23,7 +23,7 @@ div.nt-btn:focus {
 
 /* DARK THEME */
 
-body.dark div#nt-view {
+body.dark div#view {
     background: #111;
 }
 body.dark input[type=search] {
@@ -46,7 +46,7 @@ body.dark .nt-view-btn {
 
 /* LIGHT THEME */
 
-body.light div#nt-view {
+body.light div#view {
     background: #FFF;
 }
 body.light input[type=search] {
