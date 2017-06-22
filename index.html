@@ -159,11 +159,16 @@
 
 
 
-            new CesiumView().build({}, $('#view'));
+
+            new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
+            new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
+
+            //new CesiumView().build({}, $('#view'));
             //new SpaceGraphView().build({}, $('#overlay'));
         });
     });
 
+    //class DemoView  //TODO
 
 </script>
 <link type="text/css" rel="stylesheet" href="/css/normalize.css">
@@ -172,7 +177,13 @@
 
 <link type="text/css" rel="stylesheet" href="/css/netention.css">
 <link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
+<style>
 
+    .cesium-widget-credits {
+        display: none
+    }
+
+</style>
 
 <body>
 <!--[if lt IE 8]>

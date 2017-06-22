@@ -47,6 +47,7 @@ class SpaceGraphView extends NView {
                 });
             });
             target.html(sg.element);
+            target.prepend($(sg.gui.domElement).css('position', 'fixed'));
 
             sg.p2 = p2;
 
