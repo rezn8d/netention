@@ -155,6 +155,9 @@
             }
 
             I.net.add(new PouchDBMemory());
+
+            I.net.add(new PouchDBMemory("http://localhost:5984/doc"));
+
             I.net.add(new SpimeDBMemory("http://localhost:8080"));
 
 

@@ -24,7 +24,7 @@ div.nt-btn:focus {
 /* DARK THEME */
 
 body.dark div#view {
-    background: #111;
+    background: #000;
 }
 body.dark input[type=search] {
     background: url(/img/icons/search-icon-wt.png) no-repeat 7px center;

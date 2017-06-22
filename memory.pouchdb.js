@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 $.LAB
     .script("lib/pouchdb.min.js")
@@ -10,14 +12,28 @@ var N = window.N;
 
 class PouchDBMemory {
 
-    constructor() {
-
+    constructor(pouchBuilder="spime") {
+        this.pouchBuilder = pouchBuilder;
     }
 
     start(I) {
 
-        LazyLoad.js('lib/pouchdb.min.js', ()=>{
-            const db = this.db = new PouchDB("spime");
+        //https://github.com/nolanlawson/pouchdb-find
+        //https://github.com/pouchdb/geopouch
+
+
+        const that = this;
+
+        LazyLoad.js(['lib/pouchdb.min.js', 'lib/pouchdb.find.min.js', 'lib/geopouch.js' ], ()=>{
+
+            //PouchDB.plugin(require('geopouch'));
+
+            if (typeof(that.pouchBuilder)==="string") {
+                that.db = new PouchDB(that.pouchBuilder)
+            } else {
+                that.db = that.pouchBuilder(PouchDB);
+            }
+            const db = that.db;
 
             I.info([ 'start', 'PouchDB' ]);
 
@@ -36,7 +52,7 @@ class PouchDBMemory {
                     // document was added/modified
                     //console.log('change', change);
                 }
-            })
+            });
             /*.on('error', function (err) {
                         // handle errors
                     });*/

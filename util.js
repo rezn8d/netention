@@ -344,3 +344,33 @@ function outHandler(e) {
     }
 }
 
+function QueryPrompt(withSuggestions, withResults) {
+
+
+    const queryText = $('<input type="text"/>');
+    const onQueryTextChanged = _.throttle(() => {
+
+        const qText = queryText.val();
+        if (qText.length > 0) {
+            //$('#query_status').html('Suggesting: ' + qText);
+
+            $.get('/suggest', {q: qText}, withSuggestions);
+        } else {
+            withSuggestions('[]' /* HACK */);
+        }
+
+    }, 100, true, true);
+
+    queryText.submit = function () {
+        ALL(queryText.val(), withResults);
+    };
+
+    queryText.on('input', onQueryTextChanged);
+
+    queryText.on('keypress', (e) => {
+        if (e.keyCode === 13)
+            queryText.submit();
+    });
+
+    return queryText;
+}
