@@ -54,21 +54,21 @@ class PouchDBMemory extends Memory {
                     // change.id contains the doc id, change.doc contains the doc
                     if (change.deleted) {
                         // document was deleted
-                        //console.log('delete', change);
+                        //console.info('delete', change);
                     } else {
                         // document was added/modified
-                        //console.log('change', change);
+                        //console.info('change', change);
                     }
                 });
                 /*.on('error', function (err) {
                             // handle errors
                         });*/
 
-                db.info().then(function (info) {
-                    console.log(that.id, info);
-                });
+                // db.info().then(function (info) {
+                //     console.log(that.id, info);
+                // });
 
-                I.info(['start', this.id]);
+                I.info(['start', that.I]);
 
             });
         });
@@ -82,8 +82,6 @@ class PouchDBMemory extends Memory {
     get(query, each) {
         if (!this.db)
             return; //not connected yet TODO queue it
-
-        //console.log('get', query, each);
 
         const db = this.db;
 
@@ -103,7 +101,6 @@ class PouchDBMemory extends Memory {
                 include_docs: true
                 //skip: 20
             }).then(function (info) {
-                //console.log(query, info);
                 process(info);
             }).catch(function (err) {
                 console.warn(err);
@@ -137,17 +134,33 @@ class PouchDBMemory extends Memory {
     }
 
     ADD(n) {
+
         if (!this.db)
             return; //not ready yet or something //TODO enqueue
 
-        const id = n.I;
-        if (!id)
-            throw new Error("missing ID");
+        const that = this;
+
+        if (n.length) {
+            this.db.bulkDocs(n).then((d)=>{
+                //console.log('bulk', d);
+            }).catch((err)=>{
+                console.warn(that.I, n, err.toString())
+            });
+            return;
+        }
+
+
+        var id;
+        if (n.I && !n._id) {
+            id = (n._id = n.I);
+        } else if (!n._id) {
+            throw new Error('missing ID: ' + JSON.stringify(n));
+        }
+
 
 
         this.db.upsert(id, (d) => {
 
-            n._id = id;
             n._rev = d._rev; //temporary
             if (_.isEqual(d, n)) {
                 return false; //no change
@@ -157,10 +170,10 @@ class PouchDBMemory extends Memory {
                 return n;
             }
 
-        })/*.then((d)=>{
-            console.log('then', d);
-        })*/.catch(function (err) {
-            console.error(err)
+        }).then((d)=>{
+            //console.log('ok', d);
+        }).catch(err => {
+            console.warn(that.I, n, err.toString())
         });
 
     }

@@ -6,161 +6,18 @@
 if (!window.N)
     window.N = { };
 
-
-class Memory {
-
-    constructor(id) {
-        this.id = id;
-    }
-
-    toString() {
-        return 'memory:' + this.id;
-    }
-
-    /** attempt to asynch "put"/send/share a nobject into memory */
-    put(x) {
-
-    }
-
-    get(query, each) {
-
-    }
-
-    start(i) {
-
-    }
-
-    stop() {
-
-    }
-}
-
-/* network router */
-class Memorouter extends Memory {
-
-    constructor(me) {
-        super('router:' + me);
-        this.me = me;
-        this.active = new Set();
-    }
-
-    put(x) {
-        this.active.forEach(a => {
-           a.put(x);
-        });
-    }
-
-    get(query, each) {
-        this.active.forEach(a => {
-            a.get(query, each);
-        });
-    }
-
-    add(connection) {
-        if (this.active.add(connection)) {
-            connection.start(this.me);
-            this.me.emit('connect', connection);
-        }
-    }
-
-    remove(connection) {
-        if (this.active.remove(connection)) {
-            connection.stop();
-            this.me.emit('disconnect', connection);
-        }
-    }
-}
-
-/** the client-side configuration state */
-class NClient extends EventEmitter {
-
-
-    constructor(opt={}) {
-        super();
-
-        _.assign(this, opt);
-
-        this.mem = new Memorouter(this);
-
-        this.on('info', (x)=>{
-            var notice = new PNotify({
-                title: x,
-                type: 'info',
-                buttons: {
-                    closer: false,
-                    sticker: false
-                }
-            });
-            notice.get().click(function() {
-                notice.remove();
-            });
-        });
-
-        this.on(['connect', 'disconnect'], (x)=>{
-           this.info(x);
-        });
-
-        this.info('Ready');
-
-    }
-
-    info(msg) {
-        if (typeof(msg)!=="string")
-            msg = JSON.stringify(msg, null, 2);
-        this.emit('info', msg);
-    }
-
-}
-
-
-
-// var example = {
-//     n: 1,
-//     s: 'a',
-//     f: function () {
-//         console.info(this, arguments);
-//         return 123;
-//     }
-// };
-// var observed = new ObservableObject(example, {
-//     emitOnEachPropChange: true,
-//     emitSummaryChanges: true
-// });
-//
-//
-// observed.on('change:q', x => console.info('CHANGE:q', x));
-// observed.on('change', x => console.info('CHANGE', x));
-//
-// observed.n = 5;
-// observed.q = 'new q value';
-
-
-class NView {
-
-    constructor() {
-
-    }
-
-    /**
-     * @param me netention context
-     * @param target element to append to
-     * creates a new instance of the view
-     * can return something which has a method .stop() which will be called prior to destruction */
-    build(me, target) {
-
-    }
-
-}
-
 class NObject {
 
     constructor(x) {
 
         this.pri = 0.0;
 
-        //this.visible = true;
-
-        _.extend(this, x);
+        if (typeof(x)==="string")
+            this.I = x;
+        else if (typeof(x)==="object")
+            _.extend(this, x);
+        else
+            throw new Error("unrecognized argument type");
     }
 
     activate(p) {
@@ -276,6 +133,155 @@ class NObject {
 
 }
 
+
+/** abstract memory interface */
+class Memory extends NObject{
+
+    constructor(id) {
+        super(id);
+    }
+
+
+    /** attempt to asynch "put"/send/share a nobject into memory */
+    put(x) {
+
+    }
+
+    /** TODO rename to find() */
+    get(query, each) {
+
+    }
+
+    start(i) {
+
+    }
+
+    stop() {
+
+    }
+}
+
+/* network router; delegates to several child sub-memories more or less fairly */
+class Router extends Memory {
+
+    constructor(me) {
+        super('router:' + me);
+        this.me = me;
+        this.active = new Set();
+    }
+
+    put(x, exclude=undefined) {
+        this.active.forEach(a => {
+            if (exclude && (exclude===a || a===exclude.I) )
+                return;
+
+            a.put(x);
+        });
+    }
+
+    get(query, each) {
+        this.active.forEach(a => {
+            a.get(query, each);
+        });
+    }
+
+    add(connection) {
+        if (this.active.add(connection)) {
+            connection.start(this.me);
+            this.me.emit('connect', connection);
+        }
+    }
+
+    remove(connection) {
+        if (this.active.remove(connection)) {
+            connection.stop();
+            this.me.emit('disconnect', connection);
+        }
+    }
+}
+
+/** the client-side configuration state */
+class NClient extends EventEmitter {
+
+
+    constructor(opt={}) {
+        super();
+
+        _.assign(this, opt);
+
+        this.mem = new Router(this);
+
+        this.on('info', (x)=>{
+            var notice = new PNotify({
+                title: x,
+                type: 'info',
+                buttons: {
+                    closer: false,
+                    sticker: false
+                }
+            });
+            notice.get().click(function() {
+                notice.remove();
+            });
+        });
+
+        this.on(['connect', 'disconnect'], (x)=>{
+           this.info(x);
+        });
+
+        this.info('Ready');
+
+    }
+
+    info(msg) {
+        if (typeof(msg)!=="string")
+            msg = JSON.stringify(msg, null, 2);
+        this.emit('info', msg);
+    }
+
+}
+
+
+
+// var example = {
+//     n: 1,
+//     s: 'a',
+//     f: function () {
+//         console.info(this, arguments);
+//         return 123;
+//     }
+// };
+// var observed = new ObservableObject(example, {
+//     emitOnEachPropChange: true,
+//     emitSummaryChanges: true
+// });
+//
+//
+// observed.on('change:q', x => console.info('CHANGE:q', x));
+// observed.on('change', x => console.info('CHANGE', x));
+//
+// observed.n = 5;
+// observed.q = 'new q value';
+
+
+class NView {
+
+    constructor() {
+
+    }
+
+    /**
+     * @param me netention context
+     * @param target element to append to
+     * creates a new instance of the view
+     * can return something which has a method .stop() which will be called prior to destruction */
+    build(me, target) {
+
+    }
+
+}
+
+
 /** nobject viewer/editor interface model */
 class NEdit {
 
@@ -329,7 +335,7 @@ class NEdit {
 class NIcon {
     constructor(n) {
         this.n = n;
-        this.ele = D('grid-item-content')
+        this.ele = D('grid-item')
             .text(n.I).click(() => {
 
                 //queryText.val(/* dimension + ':' + */ id);

@@ -6,9 +6,34 @@ class SpimeDBMemory extends Memory {
     }
 
     start(I) {
-        I.info([ 'start', this.id ]);
+        I.info([ 'start', this.I ]);
+
+        //http://localhost:8080/facet?q=%3E
+
+        const that = this;
+        $.getJSON(this.url + '/facet', {q: '>'}, (x)=>{
+            //const xx = _.map(x, zz => { I: zz[0] });
+            const xx = x.map(zz => {
+                return {
+                    I: zz[0]
+                };
+            });
+
+            I.mem.put(xx, that);
+        });
     }
 
+    get(q, each) {
+
+        const that = this;
+        $.getJSON(this.url + '/find', {q: q}, (results)=>{
+            if (results) {
+                const obj = results[0];
+                const facets = results[1];
+                I.mem.put(obj, that);
+            }
+        });
+    }
 
     stop() {
 
