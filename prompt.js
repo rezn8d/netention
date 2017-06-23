@@ -13,18 +13,19 @@ class Prompt {
 
 
             const editor = that.editor = CodeMirror(ele[0], {
-                lineNumbers: false
+                lineNumbers: false,
+                viewportMargin: Infinity
             });
 
 
-            const suggFeed = D();
+            //const suggFeed = D();
             // suggFeed.packery({
             //     itemSelector: '.grid-item',
             //     gutter: 5
             // });
             // suggFeed.attr('style', 'width: 100%; height: auto');
 
-            editor.addLineWidget(1, suggFeed[0], {coverGutter: false, noHScroll: true})
+            //editor.addLineWidget(1, suggFeed[0], {coverGutter: false, noHScroll: true})
 
 
             editor.addKeyMap({
@@ -39,31 +40,34 @@ class Prompt {
 
 
 
+            var q;
             let queryMinUpdatePeriodMS = 100;
             const onQueryTextChanged = _.throttle(() => {
 
-                const q = editor.getValue();
+                const nextQ = editor.getValue();
+                if (nextQ == q)
+                    return; //same
+
+                q = nextQ;
                 //editor.setValue(editor.getLine(0)); //clear everything below first line
 
-                suggFeed.html('');
-
-                if (q.length) {
-                    suggFeed.fadeIn();
-                } else {
-                    suggFeed.fadeOut();
-                    return;
-                }
+                //suggFeed.html('');
 
 
 
-                const update = _.debounce(()=>suggFeed.packery( 'appended' ), 100);
 
+
+                // const update = _.debounce(()=>suggFeed.packery( 'appended' ), 100);
+                //
                 I.get(q, (x)=>{
 
                     const y = new NIcon(x).ele;
 
-                    suggFeed.append(y);
-                    update();
+                    editor.addWidget({ch:30 , line: 2}, y[0]);
+
+
+                    //editor.append(y);
+                    //update();
                 });
 
                 //$('#query_status').html('Suggesting: ' + qText);

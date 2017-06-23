@@ -23,7 +23,7 @@
         'lib/dat.gui.min.js',
         "lib/eventemitter3.min.js",
         "lib/packery.pkgd.min.js"
-        ], () => {
+    ], () => {
 
         LazyLoad.js([
             "netention.js",
@@ -124,24 +124,20 @@
                 }
             });
 
-            var viewMenu = $('#nt-view-menu');
             var rightMenu = $('#nt-ri');
 
-            // FEED
-            if (me.IncludeFeed === true) {
-                var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').prependTo(viewMenu);
+            function faButton(id, fa, label=id, desc=label) {
+                return $('<i id="' + id + '" title="' + desc + '" class="nt-btn nt-view-btn fa fa-2x ' + fa + '"/>');
             }
 
+            var viewMenu = $('.viewMenu');
+            viewMenu.prepend([
+                faButton('go', 'fa-code-fork').attr('style', 'touch-events: none'),
+                faButton('feed', 'fa-th-list'),
+                faButton('graph', 'fa-code-fork'),
+                faButton('timeline', 'fa-clock-o'),
+            ]);
 
-            // GRAPH
-            if (me.IncludeGraph === true) {
-                var graphBtn = $('<div id="graph" class="nt-btn nt-view-btn" title="Graph (relationship mapping)"><i class="fa fa-2x fa-code-fork"></i><span class="visuallyhidden">Graph</span></div>').prependTo(viewMenu);
-            }
-
-            // TIMELINE
-            if (me.IncludeTimeline === true) {
-                var timelineBtn = $('<div id="timeline" class="nt-btn nt-view-btn" title="Timeline (chronological)"><i class="fa fa-2x fa-clock-o"></i><span class="visuallyhidden">Timeline</span></div>').prependTo(viewMenu);
-            }
 
             if (me.AllowInstantMessaging === true) {
                 var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
@@ -160,12 +156,11 @@
                 "http://ana:5984/doc"
             ));
 
-            setTimeout(()=>{
+            setTimeout(() => {
 
                 me.mem.add(new SpimeDBMemory("http://localhost:8080"));
 
             }, 4000);
-
 
 
             //new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
@@ -174,12 +169,9 @@
 
             const VIEW = $('#view');
 
-            LazyLoad.js('prompt.js', ()=>{
+            LazyLoad.js('prompt.js', () => {
                 new Prompt(me, $('#find'));
             });
-
-
-
 
 
             new CesiumView().build(me, VIEW);
@@ -194,7 +186,6 @@
 <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
 
 <link type="text/css" rel="stylesheet" href="lib/pnotify.custom.min.css">
-
 
 
 <link type="text/css" rel="stylesheet" href="css/netention.css">
@@ -235,9 +226,12 @@
 
 
 <!-- MAIN MENU -->
-<div id="nt-view-menu" class="nt-btn-grp">
+<div id="nt-left-menu" >
 
-    <div id="find"></div>
+    <div id="find">
+        <div class="viewMenu nt-btn-grp"></div>
+
+    </div>
 </div>
 
 
