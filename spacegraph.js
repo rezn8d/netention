@@ -253,7 +253,7 @@ class SpaceGraphView extends NView {
 
                     {
                         const w = E('button').appendTo(overlay).text('XYZ');
-                        w.attr('style', 'position: fixed; color: orange; opacity:0.8; background-color: black; ');
+                        w.attr('style', 'position: fixed; width: 128; height: 128; color: orange; opacity:0.8; background-color: black; ');
                         setInterval(()=>{
 
                             const bw = vec2.create();

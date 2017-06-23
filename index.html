@@ -182,8 +182,8 @@
 
 
 
-            //new CesiumView().build(I, VIEW);
-            new SpaceGraphView().build(I, VIEW);
+            new CesiumView().build(I, VIEW);
+            //new SpaceGraphView().build(I, VIEW);
         });
     });
 
@@ -195,18 +195,18 @@
             this.ele = ele;
 
             const sugg = D(); //suggestions popup
-            sugg.attr('style', 'position: fixed; overflow-y: auto; min-width: 25%;min-height: 5em; margin: 0.5em; padding: 0.5em; max-height: 10em;max-width: 50%;opacity: 0.9;line-height: 1em;background-color: rgba(153, 153, 153, 0.55);');
-            sugg.attr('class', 'grid');
+            sugg.attr('style', 'position: fixed; overflow-y: auto; min-width: 25%; min-height: 15%; margin: 0.5em; padding: 0.5em; max-height: 75%; max-width: 75%;opacity: 0.9;line-height: 1em;background-color: rgba(153, 153, 153, 0.55);');
+            sugg.attr('class', 'grid nt-btn');
             //sugg.attr('data-packery','{ "itemSelector": ".grid-item", "gutter": 10 }');
             sugg.hide();
             this.sugg = sugg;
 
             const suggFeed = D();
-            suggFeed.attr('style', 'width: 100%;');
             suggFeed.packery({
                 itemSelector: '.grid-item',
                 gutter: 5
             });
+            suggFeed.attr('style', 'width: 100%; height: auto');
 
 
             let queryMinUpdatePeriodMS = 100;
