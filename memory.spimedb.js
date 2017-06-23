@@ -30,7 +30,7 @@ class SpimeDBMemory extends Memory {
             if (results) {
                 const obj = results[0];
                 const facets = results[1];
-                I.mem.put(obj, that);
+                each(obj); //I.mem.put(obj, that);
             }
         });
     }

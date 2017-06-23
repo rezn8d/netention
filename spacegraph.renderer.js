@@ -8,7 +8,7 @@ const renderPeriodMS = 1000/15; //30fps
 
 PIXI.settings.TARGET_FPMS = renderPeriodMS;
 PIXI.settings.UPLOADS_PER_FRAME = 1; //4 default
-
+var MOUSE_WHEEL_ZOOM_RATE = 0.1;
 
 p2.StateMachine = StateMachine;
 
@@ -220,7 +220,7 @@ function Renderer(scenes, options){
 
         gravityX: 0,
         gravityY: 0,
-        sleepMode: p2.World.ISLAND_SLEEPING /*NO_SLEEPING*/,
+        sleepMode: p2.World.NO_SLEEPING,
 
         'drawContacts [c]': false,
         'drawAABBs [t]': false,
@@ -1135,6 +1135,7 @@ function WebGLRenderer(scenes, options){
 
     this.sprites = [];
     this.springSprites = [];
+
     this.debugPolygons = false;
 
     this.islandColors = {}; // id -> int
@@ -1417,7 +1418,8 @@ WebGLRenderer.prototype.init = function(){
 
         if(delta){
             var point = that.domToPhysics([e.clientX, e.clientY]);
-            that.zoomAroundPoint(point, delta > 0 ? 0.05 : -0.05);
+
+            that.zoomAroundPoint(point, delta > 0 ? MOUSE_WHEEL_ZOOM_RATE : -MOUSE_WHEEL_ZOOM_RATE);
         }
     }
 
@@ -1455,6 +1457,10 @@ WebGLRenderer.prototype.getTouchPosition = function(i){
 
 WebGLRenderer.prototype.domToPhysics = function(point){
     var result = this.stage.toLocal(new PIXI.Point(point[0], point[1]));
+    return [result.x, result.y];
+};
+WebGLRenderer.prototype.physicsToDom = function(point){
+    var result = this.stage.toGlobal(new PIXI.Point(point[0], point[1]));
     return [result.x, result.y];
 };
 
@@ -1841,6 +1847,7 @@ WebGLRenderer.prototype.render = function(deltaTime){
     this.currentZoom = smoothDamp(this.currentZoom, this.zoom, this._zoomStore, deltaTime, this.smoothTime, this.maxSmoothVelocity);
     this.stage.scale.set(this.currentZoom, -this.currentZoom);
 
+    // Camera Update
     this.stage.updateTransform();
 
     // Update body transforms
@@ -1850,10 +1857,10 @@ WebGLRenderer.prototype.render = function(deltaTime){
 
     // Update graphics if the body changed sleepState or island
     for(var i=0; i!==this.bodies.length; i++){
-        var body = this.bodies[i];
-        var isSleeping = (body.sleepState===p2.Body.SLEEPING);
-        var sprite = this.sprites[i];
-        var islandColor = this.getIslandColor(body);
+        const body = this.bodies[i];
+        const isSleeping = (body.sleepState === p2.Body.SLEEPING);
+        const sprite = this.sprites[i];
+        const islandColor = this.getIslandColor(body);
         if(sprite.drawnSleeping !== isSleeping || sprite.drawnColor !== islandColor){
             sprite.clear();
             this.drawRenderable(body, sprite, islandColor, sprite.drawnLineColor);
@@ -1898,10 +1905,12 @@ WebGLRenderer.prototype.render = function(deltaTime){
         vec2.set(distVec, sxA - sxB, syA - syB);
 
         // Compute angle
-        sprite.rotation = Math.acos( vec2.dot(X, distVec) / vec2.length(distVec) );
+        let vec2Dist = vec2.length(distVec);
+
+        sprite.rotation = Math.acos( vec2.dot(X, distVec) / vec2Dist );
 
         // And scale
-        sprite.scale.x = vec2.length(distVec) / s.restLength;
+        sprite.scale.x = vec2Dist / s.restLength;
     }
 
     // Clear contacts
@@ -2067,6 +2076,8 @@ WebGLRenderer.prototype.addRenderable = function(obj){
         this.drawRenderable(obj, sprite, color, lineColor);
         this.sprites.push(sprite);
         this.stage.addChild(sprite);
+
+        obj.sprite = sprite; //back-reference
 
     } else if(obj instanceof p2.Spring){
 

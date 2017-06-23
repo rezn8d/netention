@@ -177,11 +177,17 @@ class Router extends Memory {
 
             a.put(x);
         });
+        this.me.emit('put', x);
     }
 
     get(query, each) {
         this.active.forEach(a => {
-            a.get(query, each);
+            try {
+                a.get(query, each);
+            } catch (e) {
+                console.warn(a, e);
+            }
+
         });
     }
 
