@@ -15,7 +15,7 @@ class PouchDBMemory extends Memory {
         this.pouchBuilder = pouchBuilder;
     }
 
-    start(I) {
+    start(me) {
 
         //https://github.com/nolanlawson/pouchdb-find
         //https://github.com/pouchdb/geopouch
@@ -68,7 +68,7 @@ class PouchDBMemory extends Memory {
                 //     console.log(that.id, info);
                 // });
 
-                I.info(['start', that.I]);
+                me.info(['start', that.I]);
 
             });
         });

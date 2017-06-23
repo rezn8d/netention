@@ -26,8 +26,6 @@
         ], () => {
 
         LazyLoad.js([
-
-            "graph.js",
             "netention.js",
             "memory.pouchdb.js",
             "memory.spimedb.js",
@@ -39,7 +37,7 @@
             $('#loading').hide();
 
 
-            const I = window.I = new NClient({
+            const me = window.I = new NClient({
 //                network: [
 //                    "localhost:8081"
 //                ],
@@ -102,7 +100,7 @@
 
 
             // Set Theme
-            $('body').addClass(I.DefaultTheme);
+            $('body').addClass(me.DefaultTheme);
 
             $('#nt-user').on('click', function () {
                 var mn = $('nav.right');
@@ -126,45 +124,45 @@
                 }
             });
 
-            var viewMenu = $('#nt-view-menu').find('.nt-btn-grp');
-            var rightMenu = $('#nt-ri').find('.nt-btn-grp');
+            var viewMenu = $('#nt-view-menu');
+            var rightMenu = $('#nt-ri');
 
             // FEED
-            if (I.IncludeFeed === true) {
+            if (me.IncludeFeed === true) {
                 var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').prependTo(viewMenu);
             }
 
 
             // GRAPH
-            if (I.IncludeGraph === true) {
+            if (me.IncludeGraph === true) {
                 var graphBtn = $('<div id="graph" class="nt-btn nt-view-btn" title="Graph (relationship mapping)"><i class="fa fa-2x fa-code-fork"></i><span class="visuallyhidden">Graph</span></div>').prependTo(viewMenu);
             }
 
             // TIMELINE
-            if (I.IncludeTimeline === true) {
+            if (me.IncludeTimeline === true) {
                 var timelineBtn = $('<div id="timeline" class="nt-btn nt-view-btn" title="Timeline (chronological)"><i class="fa fa-2x fa-clock-o"></i><span class="visuallyhidden">Timeline</span></div>').prependTo(viewMenu);
             }
 
-            if (I.AllowInstantMessaging === true) {
+            if (me.AllowInstantMessaging === true) {
                 var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
             }
 
-            if (I.AllowUserHomepage === true) {
+            if (me.AllowUserHomepage === true) {
                 var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
             }
 
-            I.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
+            me.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
 
             //I.net.add( new PouchDBMemory( ((PouchDB)=>new PouchDB('dbname', {adapter: 'memory'})) ) ); //MemDown
 
-            I.mem.add(new PouchDBMemory(
+            me.mem.add(new PouchDBMemory(
                 //"http://localhost:5984/doc"
                 "http://ana:5984/doc"
             ));
 
             setTimeout(()=>{
 
-                I.mem.add(new SpimeDBMemory("http://localhost:8080"));
+                me.mem.add(new SpimeDBMemory("http://localhost:8080"));
 
             }, 4000);
 
@@ -176,121 +174,35 @@
 
             const VIEW = $('#view');
 
-            new Prompt(I, $('#find'));
+            LazyLoad.js('prompt.js', ()=>{
+                new Prompt(me, $('#find'));
+            });
 
 
 
 
 
-            new CesiumView().build(I, VIEW);
+            new CesiumView().build(me, VIEW);
             //new SpaceGraphView().build(I, VIEW);
         });
     });
 
-    /** manages the state of an input text prompt and its related pop-ups */
-    class Prompt {
-
-
-        constructor(I, ele) {
-            this.ele = ele;
-
-            const sugg = D(); //suggestions popup
-            sugg.attr('style', 'position: fixed; overflow-y: auto; min-width: 25%; min-height: 15%; margin: 0.5em; padding: 0.5em; max-height: 75%; max-width: 75%;opacity: 0.9;line-height: 1em;background-color: rgba(153, 153, 153, 0.55);');
-            sugg.attr('class', 'grid nt-btn');
-            //sugg.attr('data-packery','{ "itemSelector": ".grid-item", "gutter": 10 }');
-            sugg.hide();
-            this.sugg = sugg;
-
-            const suggFeed = D();
-            suggFeed.packery({
-                itemSelector: '.grid-item',
-                gutter: 5
-            });
-            suggFeed.attr('style', 'width: 100%; height: auto');
-
-
-            let queryMinUpdatePeriodMS = 100;
-            const onQueryTextChanged = _.throttle(() => {
-
-                const q = ele.val();
-
-                suggFeed.html('');
-                if (q.length) {
-                    sugg.show();
-                } else {
-                    sugg.hide();
-                }
-
-                const update = _.debounce(()=>suggFeed.packery( 'appended' ), 100);
-
-                I.mem.get(q, (x)=>{
-
-                    const y = new NIcon(x).ele;
-
-                    suggFeed.append(y);
-                    update();
-                });
-
-                //$('#query_status').html('Suggesting: ' + qText);
-
-//                $.get('/suggest', {q: qText}, function (result) {
-//
-//                    if (!result.length) {
-//                        suggestions.html('');
-//                    } else {
-//                        suggestions.html(_.map((result), (x) =>
-//                            D('suggestion').text(x).click(() => {
-//                                ele.val(x);
-//                                update(x);
-//                            })
-//                        ));
-//                    }
-//                });
-            }, queryMinUpdatePeriodMS, true, true);
-
-            const querySubmit = () => {
-                var q = ele.val();
-                if (q = q.trim()) {
-                    //update(q);
-                    I.info("share: " + q);
-
-                    I.mem.put({
-                        I: 'x' + parseInt(10000000 * Math.random()), //TODO UUID
-                        N: q
-                    });
-                }
-            };
-
-            ele.on('input', onQueryTextChanged);
-
-            ele.on('keypress', (e) => {
-                let keyCode = e.keyCode;
-                switch (keyCode) {
-                    case 13: /* enter */ querySubmit(); break;
-                    case 27: /* escape */ ele.val(''); /* clear */ break;
-                }
-            });
-
-            ele.after(sugg);
-            suggFeed.appendTo(sugg);
-
-        }
-
-    }
-
     //class DemoView  //TODO
 
 </script>
-<link type="text/css" rel="stylesheet" href="/css/normalize.css">
-<link type="text/css" rel="stylesheet" href="/css/font-awesome.min.css">
-<link type="text/css" rel="stylesheet" href="/lib/pnotify.custom.min.css">
+<link type="text/css" rel="stylesheet" href="css/normalize.css">
+<link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
 
-<link type="text/css" rel="stylesheet" href="/css/netention.css">
-<link type="text/css" rel="stylesheet" href="/css/netention-theme.css">
+<link type="text/css" rel="stylesheet" href="lib/pnotify.custom.min.css">
+
+
+
+<link type="text/css" rel="stylesheet" href="css/netention.css">
+<link type="text/css" rel="stylesheet" href="css/netention-theme.css">
 <style>
 
     .grid-item {
-        border: 1px solid purple;
+        border: 1px solid blue;
         margin: 2px;
         padding: 2px;
     }
@@ -323,19 +235,16 @@
 
 
 <!-- MAIN MENU -->
-<div id="nt-view-menu">
-    <span class="nt-btn-grp">
-        <input id="find" type="search"/>
-    </span>
+<div id="nt-view-menu" class="nt-btn-grp">
+
+    <div id="find"></div>
 </div>
 
 
-<div id="nt-right-menu">
-    <div class="nt-btn-grp">
-        <!-- AVATAR / MENU TOGGLE BUTTON -->
-        <div id="nt-user" class="nt-btn nt-view-btn">
-            <img src="/img/netention-256.png" alt="User.Icon">
-        </div>
+<div id="nt-right-menu" class="nt-btn-grp">
+    <!-- AVATAR / MENU TOGGLE BUTTON -->
+    <div id="nt-user" class="nt-btn nt-view-btn">
+        <img src="/img/netention-256.png" alt="User.Icon">
     </div>
 </div>
 

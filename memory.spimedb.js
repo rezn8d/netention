@@ -5,8 +5,8 @@ class SpimeDBMemory extends Memory {
         this.url = url;
     }
 
-    start(I) {
-        I.info([ 'start', this.I ]);
+    start(me) {
+        me.info([ 'start', this.I ]);
 
         //http://localhost:8080/facet?q=%3E
 
@@ -19,7 +19,7 @@ class SpimeDBMemory extends Memory {
                 };
             });
 
-            I.mem.put(xx, that);
+            me.mem.put(xx, that);
         });
     }
 

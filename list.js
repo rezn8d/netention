@@ -4,12 +4,12 @@ class TableView extends NView {
         super();
     }
 
-    build(I, target) {
+    build(me, target) {
 
         const y = D();
         y.query = (q) => {
-            console.log('query', q, I.mem);
-            I.mem.get(q, x => y.append($('<h1>' + x + '</h1>')));
+            console.log('query', q, me.mem);
+            me.mem.get(q, x => y.append($('<h1>' + x + '</h1>')));
         };
         target.html(y);
         return y;

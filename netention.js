@@ -134,6 +134,8 @@ class NObject {
 }
 
 
+
+
 /** abstract memory interface */
 class Memory extends NObject{
 
@@ -157,6 +159,15 @@ class Memory extends NObject{
     }
 
     stop() {
+
+    }
+
+
+    /** call this when there is activity.  the actual callee will be overridden
+     * amount in range 0..1.0 indicating the approximate strength of the activity level
+     * set to -1 to indicate disconnect
+     * */
+    onActivity(amount) {
 
     }
 }
@@ -237,6 +248,15 @@ class NClient extends EventEmitter {
 
         this.info('Ready');
 
+    }
+
+    /** TODO inclusion semantics */
+    put(x, excludeMemory=undefined) {
+        return this.mem.put(x, excludeMemory);
+    }
+
+    get(query, each) {
+        return this.mem.get(query, each);
     }
 
     info(msg) {
