@@ -30,9 +30,9 @@
             "memory.pouchdb.js",
             "memory.spimedb.js",
             "list.js",
-            "map2d.js",
-            "map3d.js",
-            "spacegraph.js"], () => {
+            //"map2d.js",
+            //"spacegraph.js"
+        ], () => {
 
             $('#loading').hide();
 
@@ -99,53 +99,20 @@
             });
 
 
-            // Set Theme
-            $('body').addClass(me.DefaultTheme);
-
-            $('#nt-user').on('click', function () {
-                var mn = $('nav.right');
-                if (mn.hasClass('visible')) {
-                    mn.removeClass('visible');
-                    $(this).removeClass('active');
-                } else {
-                    mn.addClass('visible');
-                    $(this).addClass('active');
-                }
-            });
-
-            $('.sub-menu ul').hide();
-            $(".sub-menu a").click(function () {
-                if ($(this).parent(".sub-menu").children("ul").is(":visible")) {
-                    $(this).parent(".sub-menu").children("ul").hide();
-                    $(this).find(".right").removeClass("fa-caret-down").addClass("fa-caret-up");
-                } else {
-                    $(this).parent(".sub-menu").children("ul").show();
-                    $(this).find(".right").removeClass("fa-caret-up").addClass("fa-caret-down");
-                }
-            });
-
-            var rightMenu = $('#nt-ri');
-
-            function faButton(id, fa, label=id, desc=label) {
-                return $('<i id="' + id + '" title="' + desc + '" class="nt-btn nt-view-btn fa fa-2x ' + fa + '"/>');
-            }
-
-            var viewMenu = $('.viewMenu');
-            viewMenu.prepend([
-                faButton('go', 'fa-code-fork').attr('style', 'touch-events: none'),
-                faButton('feed', 'fa-th-list'),
-                faButton('graph', 'fa-code-fork'),
-                faButton('timeline', 'fa-clock-o'),
-            ]);
+            const VIEW = $('#view');
 
 
-            if (me.AllowInstantMessaging === true) {
-                var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
-            }
+            LazyLoad.js('hud.js', () => new HUDView().build(me, $('body')) );
 
-            if (me.AllowUserHomepage === true) {
-                var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
-            }
+            LazyLoad.js('prompt.js', () => new Prompt(me, $('#find')) );
+
+            LazyLoad.js('map3d.js', () => new CesiumView().build(me, VIEW) );
+
+            //LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(I, VIEW) );
+
+
+
+
 
             me.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
 
@@ -156,28 +123,20 @@
                 "http://ana:5984/doc"
             ));
 
-            setTimeout(() => {
+            //setTimeout(() => {
 
-                me.mem.add(new SpimeDBMemory("http://localhost:8080"));
+            me.mem.add(new SpimeDBMemory("http://localhost:8080"));
 
-            }, 4000);
-
-
+            //}, 4000);
             //new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
 //            new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
 //            new TableView().build(I, VIEW).query("sseehh")
 
-            const VIEW = $('#view');
 
-            LazyLoad.js('prompt.js', () => {
-                new Prompt(me, $('#find'));
-            });
-
-
-            new CesiumView().build(me, VIEW);
-            //new SpaceGraphView().build(I, VIEW);
         });
     });
+
+
 
     //class DemoView  //TODO
 
@@ -226,13 +185,11 @@
 
 
 <!-- MAIN MENU -->
-<div id="nt-left-menu" >
+<div id="find">
+    <div class="buttons nt-btn-grp"></div>
 
-    <div id="find">
-        <div class="viewMenu nt-btn-grp"></div>
-
-    </div>
 </div>
+
 
 
 <div id="nt-right-menu" class="nt-btn-grp">

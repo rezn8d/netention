@@ -46,16 +46,9 @@ body {
 /*opacity: 1;*/
 /*}*/
 
-#nt-left-menu {
-    top: 0;
-    left: 0;
-    position: fixed;
-    margin: 0;
-}
 
 .nt-btn-grp {
-    display: table;
-    table-layout: fixed;
+    display: inline-flex;
 }
 
 #nt-right-menu {
@@ -127,21 +120,33 @@ input::-webkit-search-cancel-button {
     top: 0;
     left: 0;
 
-    font-size: 200%;
     width: 2em;
     height: 2em;
-    overflow: hidden;
+}
+#find * {
+    transition: all 0.3s;
 }
 
+#find .CodeMirror, #find .buttons * {
+    display: none;
+}
+#find .buttons #go { /* exception */
+    display: block !important;
+}
 
-#find:focus, #find:active {
+#find:focus, #find:active, #find:hover {
+    min-width: 25%;
     max-width: 75%;
     max-height: 75%;
-    min-width: 200px;
     min-height: 1em;
     width: auto;
     height: auto;
     opacity: 0.9;
+    overflow: auto;
+}
+
+#find:focus .buttons *, #find:active .buttons *, #find:hover .buttons *, #find:hover .CodeMirror {
+    display: block;
 }
 
 
@@ -153,30 +158,12 @@ input::-webkit-search-cancel-button {
     min-height: 6em;
 }
 
-#find .viewMenu i:hover {
+#find .buttons i:hover {
     color: orange;
 }
-#find .viewMenu i {
+#find .buttons i {
     width: 1.25em;
     text-align: center;
-}
-
-
-
-#find:focus, #find:hover {
-
-    min-width: 25%;
-    width: auto !important; /*130px;*/
-    height: auto !important; /*130px;*/
-    cursor: auto;
-
-    overflow: auto;
-
-        /*-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .5);*/
-    /*-moz-box-shadow: 0 0 5px rgba(0, 0, 0, .5);*/
-    /*box-shadow: 0 0 5px rgba(0, 0, 0, .5);*/
-}
-#viewMenu {
 }
 
 #find:-moz-placeholder, #find::-webkit-input-placeholder {
