@@ -14,7 +14,7 @@ body {
     box-sizing: border-box;
 }
 
-.noselect, .nt-btn {
+.noselect, .btn {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -47,19 +47,25 @@ body {
 /*}*/
 
 
-.nt-btn-grp {
-    display: inline-flex;
-}
 
-#nt-right-menu {
+#left-menu {
+    top: 0;
+    left: 0;
+    position: fixed;
+    margin: 0;
+}
+#right-menu {
     top: 0;
     right: 0;
     position: fixed;
     margin: 0;
 }
 
+.btn-grp {
+    display: inline-flex;
+}
 
-.nt-view-btn {
+.view-btn {
     display: table-cell;
     height: 42px;
     width: 42px;
@@ -69,17 +75,12 @@ body {
     box-sizing: border-box;
 }
 
-.nt-btn {
+.btn {
     border-bottom: 2px solid transparent;
-}
-
-.nt-btn:hover,
-.nt-btn:focus {
-    background: rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
 
-.nt-btn span.badge.right {
+.btn span.badge.right {
     padding: 7px 4px;
     margin-top: 6px;
     font-size: 8px;
@@ -95,13 +96,68 @@ body {
     left: -5px;
 }
 
+
+/* SLIDER SWITCH */
+.switch {
+  position: relative;
+  display: inline-block;
+  background: transparent !important;
+  width: 60px;
+  height: 34px;
+  top: -7px;
+}
+.switch input {display:none;}
+
+/* The slider */
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.switch input:checked + .slider {
+  background-color: #FC0;
+}
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #FC0;
+}
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+/* Rounded sliders */
+.switch .slider.round {
+  border-radius: 34px;
+}
+.switch .slider.round:before {
+  border-radius: 50%;
+}
+
+
 /* AVATAR / MENU TOGGLE BUTTON */
-div#nt-user img {
+#user img {
     width: 32px;
 }
 
 /* SEARCH */
-.nt-search {
+.search {
     z-index: 5;
 }
 

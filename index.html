@@ -8,139 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<script type="text/javascript" src="lib/lazyload.min.js"></script>
-<script type="text/javascript">
-    "use strict";
 
-
-    LazyLoad.js([
-        "lib/jquery.min.js",
-        "lib/lodash.min.js",
-        "util.js",
-        "lib/slim.min.js",
-        "lib/modernizr.min.js",
-        "lib/pnotify.custom.min.js",
-        'lib/dat.gui.min.js',
-        "lib/eventemitter3.min.js",
-        "lib/packery.pkgd.min.js"
-    ], () => {
-
-        LazyLoad.js([
-            "netention.js",
-            "memory.pouchdb.js",
-            "memory.spimedb.js",
-            "list.js",
-            //"map2d.js",
-            //"spacegraph.js"
-        ], () => {
-
-            $('#loading').hide();
-
-
-            const me = window.I = new NClient({
-//                network: [
-//                    "localhost:8081"
-//                ],
-                //"ServerType": "0",
-                //  0 = Global (node + full network)
-                //  1 = Mirror (support global network),
-                //  2 = Independent (node only, no network),
-
-                //server.privacy = {
-                //  "AllowAnonymousLogin": true,
-                //  "MinPrivacyLevel", "MaxPrivacyLevel" // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
-                //}
-
-                view: [
-                    {
-                        //var mapBtn = $('<div id="map" class="nt-btn nt-view-btn" title="Map / 3D Globe (geolocation)"><i class="fa fa-2x fa-map-marker"></i><span class="visuallyhidden">Map</span></div>').appendTo(viewMenu);
-                        "I": "map3D",
-                        "N": "3D Earth",
-                        "_": "Cesium.js",
-                        "icon": "fa-map-marker"
-                    },
-                    {
-                        //var feedBtn = $('<div id="feed" class="nt-btn nt-view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').appendTo(viewMenu);
-                        "I": "list",
-                        "N": "List",
-                        "icon": "fa-th-list"
-                    }
-                ],
-
-                // PRIVACY
-                privacy: {
-                    // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
-                    'levelDefault': 1
-                },
-                memory: {
-                    'durationDefault': Infinity,
-                    // determine the default license for posted Nobjects
-                    //"this message should be destructed at"
-                    //"5 minutes"
-                    //"10 days"
-                    'license': "AGPL"
-                    //'Creative
-                },
-
-                // VIEWS
-                "IncludeFeed": true,
-                "IncludeGraph": true,
-                "IncludeMap": true,
-                "IncludeTimeline": true,
-                // USERS
-                "AllowUserHomepage": true,
-                "AllowInstantMessaging": true,
-                "AllowVoice": true,
-                "AllowVideo": true,
-                // ADDONS
-                "DefaultTheme": "dark", // Options: "dark" or "light"
-                "AllowThemes": true,
-                "AllowPlugins": true
-            });
-
-
-            const VIEW = $('#view');
-
-
-            LazyLoad.js('hud.js', () => new HUDView().build(me, $('body')) );
-
-            LazyLoad.js('prompt.js', () => new Prompt(me, $('#find')) );
-
-            LazyLoad.js('map3d.js', () => new CesiumView().build(me, VIEW) );
-
-            //LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(I, VIEW) );
-
-
-
-
-
-            me.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
-
-            //I.net.add( new PouchDBMemory( ((PouchDB)=>new PouchDB('dbname', {adapter: 'memory'})) ) ); //MemDown
-
-            me.mem.add(new PouchDBMemory(
-                //"http://localhost:5984/doc"
-                "http://ana:5984/doc"
-            ));
-
-            //setTimeout(() => {
-
-            me.mem.add(new SpimeDBMemory("http://localhost:8080"));
-
-            //}, 4000);
-            //new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
-//            new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
-//            new TableView().build(I, VIEW).query("sseehh")
-
-
-        });
-    });
-
-
-
-    //class DemoView  //TODO
-
-</script>
 <link type="text/css" rel="stylesheet" href="css/normalize.css">
 <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
 
@@ -184,34 +52,35 @@
 <!--</div>-->
 
 
-<!-- MAIN MENU -->
-<div id="find">
-    <div class="buttons nt-btn-grp"></div>
+<div id="left-menu" class="btn-grp">
 
 </div>
 
-
-
-<div id="nt-right-menu" class="nt-btn-grp">
+<div id="right-menu" class="btn-grp">
     <!-- AVATAR / MENU TOGGLE BUTTON -->
-    <div id="nt-user" class="nt-btn nt-view-btn">
+    <div id="user" class="btn view-btn">
         <img src="/img/netention-256.png" alt="User.Icon">
     </div>
 </div>
 
 <nav class='right animated bounceInDown'>
-    <ul>
-        <li>
+    <ul id="right-dropdown">
+
+        <!-- DARK / LIGHT THEME SWITCHER -->
+        <li id="theme-switcher">
+            <a href='#profile'>
+                <div class='fa fa-paint-brush'></div>
+                Theme 
+                 <label class="badge right switch">
+                  <input type="checkbox">
+                  <div class="slider"></div>
+                </label>
+            </a>
+        </li> 
+        <li id="profile-link">
             <a href='#profile'>
                 <div class='fa fa-user'></div>
                 Profile
-            </a>
-        </li>
-        <li>
-            <a href='#message'>
-                <div class='fa fa-envelope'></div>
-                Messages
-                <span class='badge right'>12</span>
             </a>
         </li>
         <li class='sub-menu'>
@@ -224,11 +93,6 @@
                 <li>
                     <a href='#settings'>
                         Account
-                    </a>
-                </li>
-                <li>
-                    <a href='#settings'>
-                        Profile
                     </a>
                 </li>
                 <li>
@@ -281,6 +145,136 @@
     </ul>
 </nav>
 
+<script type="text/javascript" src="lib/lazyload.min.js"></script>
+<script type="text/javascript">
+    "use strict";
+
+
+    LazyLoad.js([
+        "lib/jquery.min.js",
+        "lib/lodash.min.js",
+        "util.js",
+        "lib/slim.min.js",
+        "lib/modernizr.min.js",
+        "lib/pnotify.custom.min.js",
+        'lib/dat.gui.min.js',
+        "lib/eventemitter3.min.js",
+        "lib/packery.pkgd.min.js"
+    ], () => {
+
+        LazyLoad.js([
+            "netention.js",
+            "memory.pouchdb.js",
+            "memory.spimedb.js",
+            "list.js",
+            //"map2d.js",
+            //"spacegraph.js"
+        ], () => {
+
+            $('#loading').hide();
+
+
+            const me = window.I = new NClient({
+                //network: [
+                //  "localhost:8081"
+                //],
+                //"ServerType": "0",
+                //  0 = Global (node + full network)
+                //  1 = Mirror (support global network),
+                //  2 = Independent (node only, no network),
+
+                //server.privacy = {
+                //  "AllowAnonymousLogin": true,
+                //  "MinPrivacyLevel", "MaxPrivacyLevel" // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+                //}
+
+                view: [
+                    {
+                        //var mapBtn = $('<div id="map" class="btn view-btn" title="Map / 3D Globe (geolocation)"><i class="fa fa-2x fa-map-marker"></i><span class="visuallyhidden">Map</span></div>').appendTo(viewMenu);
+                        "I": "map3D",
+                        "N": "3D Earth",
+                        "_": "Cesium.js",
+                        "icon": "fa-map-marker"
+                    },
+                    {
+                        //var feedBtn = $('<div id="feed" class="btn view-btn" title="Feed (list)"><i class="fa fa-2x fa-th-list"></i><span class="visuallyhidden">Feed</span></div>').appendTo(viewMenu);
+                        "I": "list",
+                        "N": "List",
+                        "icon": "fa-th-list"
+                    }
+                ],
+
+                // PRIVACY
+                privacy: {
+                    // 0 = Global (all nodes), 1 = Public (node only), 2 = Friends/Groups only, 3 = Self only
+                    'levelDefault': 1
+                },
+                memory: {
+                    'durationDefault': Infinity,
+                    // determine the default license for posted Nobjects
+                    //"this message should be destructed at"
+                    //"5 minutes"
+                    //"10 days"
+                    'license': "AGPL"
+                    //'Creative
+                },
+
+                // VIEWS
+                "IncludeFeed": true,
+                "IncludeGraph": true,
+                "IncludeMap": true,
+                "IncludeTimeline": true,
+                // USERS
+                "AllowUserHomepage": true,
+                "AllowInstantMessaging": true,
+                "AllowVoice": true,
+                "AllowVideo": true,
+                // ADDONS
+                "DefaultTheme": "dark", // Options: "dark" or "light"
+                "AllowThemes": true,
+                "AllowPlugins": true
+            });
+
+
+            const VIEW = $('#view');
+
+            /* MAIN GUI */
+            LazyLoad.js('hud.js', () => new HUDView().build(me, $('body')) );
+
+            /* CREATE NOBJECT PROMPT */
+            LazyLoad.js('input-gui.js', () => new InputGUI(me, $('#find')) );
+            //LazyLoad.js('input-text.js', () => new InputCL(me, $('#find')) );
+
+            /* DEFAULT VIEW */
+            //LazyLoad.js('map3d.js', () => new CesiumView().build(me, VIEW) );
+            //LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, VIEW) );
+            LazyLoad.js('list-isotope.js', () => new ListView().build(me, VIEW) );
+
+            /* SET DATABASE(S) */
+            me.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
+            //I.net.add( new PouchDBMemory( ((PouchDB)=>new PouchDB('dbname', {adapter: 'memory'})) ) ); //MemDown
+
+            //setTimeout(() => {
+                //me.mem.add(new SpimeDBMemory("http://localhost:8080"));
+                //me.mem.add(new PouchDBMemory(
+                    //"http://localhost:5984/doc"
+                    //"http://ana:5984/doc"
+                //));
+            //}, 4000);
+
+            //new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
+            //new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
+            //new TableView().build(I, VIEW).query("sseehh")
+
+
+        });
+    });
+
+
+
+    //class DemoView  //TODO
+
+</script>
 
 </body>
 </html>

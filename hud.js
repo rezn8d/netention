@@ -6,7 +6,7 @@ class HUDView extends NView {
         // Set Theme
         $(target).addClass(me.DefaultTheme);
 
-        $('#nt-user').on('click', function () {
+        $('#user').on('click', function () {
             var mn = $('nav.right');
             if (mn.hasClass('visible')) {
                 mn.removeClass('visible');
@@ -28,28 +28,38 @@ class HUDView extends NView {
             }
         });
 
-        var rightMenu = target.find('#nt-ri');
+        var rightMenu = $('#right-dropdown');
 
         function faButton(id, fa, label=id, desc=label) {
-            return $('<i id="' + id + '" title="' + desc + '" class="nt-btn nt-view-btn fa fa-2x ' + fa + '"/>');
+            return $('<i id="' + id + '" title="' + desc + '" class="btn view-btn fa fa-2x ' + fa + '"/>');
         }
 
-        var buttons = target.find('.buttons');
+        var buttons = target.find('#left-menu');
 
         buttons.prepend([
-            faButton('go', 'fa-code-fork').attr('style', 'touch-events: none'),
+            faButton('go', 'fa-plus'),
             faButton('feed', 'fa-th-list'),
+            faButton('map', 'fa-globe'),
             faButton('graph', 'fa-code-fork'),
             faButton('timeline', 'fa-clock-o'),
         ]);
-
+            target.addClass(me.DefaultTheme);
+        $('#theme-switcher').on('change', function() {
+                        console.log('clicked');
+                if (target.hasClass("dark")) {
+                    console.log('is dark');
+                        target.removeClass('dark').addClass('light');
+                } else {
+                    console.log('is light');
+                        target.removeClass('light').addClass('dark');
+                }
+        });
 
         if (me.AllowInstantMessaging === true) {
-            var messageBtn = $('<div id="notifications" class="nt-btn nt-view-btn" title="Updates (notifications / messages)"><i class="fa fa-2x fa-comments-o"></i><span class="visuallyhidden">Messages</span><span class="badge right">12</span></div>').prependTo(rightMenu);
+            var messageBtn = $("<li><a href='#message'><div class='fa fa-envelope'></div> Messages<span class='badge right'>12</span></a></li>").prependTo(rightMenu);
         }
-
         if (me.AllowUserHomepage === true) {
-            var messageBtn = $('<div id="home" class="nt-btn nt-view-btn" title="My Home"><i class="fa fa-2x fa-home"></i><span class="visuallyhidden">Homepage</span></div>').prependTo(rightMenu);
+            var messageBtn = $("<li><a href='#home'><div class='fa fa-home'></div> My Home</a></li>").prependTo(rightMenu);
         }
 
     }

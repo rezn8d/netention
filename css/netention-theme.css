@@ -8,10 +8,10 @@
   text-shadow:none;
 }
 
-.nt-btn.active {
+.btn.active {
     border-bottom:2px solid #FC0;
 }
-div.nt-btn:focus {
+.btn:focus {
     color:#FC0;
 }
 
@@ -26,12 +26,16 @@ body.dark #find:hover {
     background-color: #1c1c1c;
 }
 
-body.dark .nt-btn span.badge.right {
+body.dark .btn span.badge.right {
     background: #111;
     color:#FFF;
 }
-body.dark .nt-view-btn {
+body.dark .view-btn {
     color:#FFF;
+}
+body.dark .btn:hover,
+body.dark .btn:focus {
+    background: rgba(255,255,255, 0.3);
 }
 
 /* LIGHT THEME */
@@ -42,11 +46,16 @@ body.light div#view {
 body.light #find:hover {
     background-color: #fff;
 }
-body.light .nt-btn span.badge.right {
+body.light .btn span.badge.right {
     background: #FFF;
     color:#111;
 }
+body.light .btn:hover,
+body.light .btn:focus {
+    background: rgba(0, 0, 0, 0.3);
+}
 
+/* LIGHT and DARK THEMES */
 input:-moz-placeholder {
     color: #999;
 }

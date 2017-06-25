@@ -1,7 +1,7 @@
 "use strict";
 
 /** manages the state of an input text prompt and its related pop-ups */
-class Prompt {
+class InputCL {
 
     constructor(me, ele) {
         this.ele = ele;
@@ -11,7 +11,7 @@ class Prompt {
 
         let loading = $('<h1>LOADING EDITOR</h1>');
         ele.append(loading);
-
+        ele.append('<div id="find" />')
 
         //LazyLoad.js('lib/wysiwyg-editor.min.js', ()=>{
 
