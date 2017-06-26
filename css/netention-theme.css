@@ -67,3 +67,7 @@ input:-moz-placeholder {
 input::-webkit-input-placeholder {
     color: #999;
 }
+
+.windget {
+    opacity: 0.9;
+}

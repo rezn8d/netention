@@ -440,18 +440,33 @@ nav ul li ul li a:hover {
 }
 
 .windget {
-    background-color: rgba(200,200,200,0.85);
-    color: white;
+    background-color: rgba(127,127,127,0.5);
 
 
-    max-width: 90%;
-    max-height: 90%;
+    /*max-width: 90%;*/
+    /*max-height: 90%;*/
 
     position: fixed;
     box-sizing: border-box;
     pointer-events: all;
     overflow: hidden;
-    z-index: 5000;
+
+
+    padding: 10px;
+
+    margin: 20px 20px;
+
+    min-width: 120px;
+}
+.windget:hover {
+    background-color: rgba(127,200,127,0.75);
+}
+.windget:active, .windget:focus {
+    background-color: rgba(127,127,200,0.75);
+}
+
+.windget .CodeMirror {
+    height: 100% !important;
 }
 .windget .close_button {
     top: 0;

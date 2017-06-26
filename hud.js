@@ -43,7 +43,9 @@ class HUDView extends NView {
             faButton('go', 'fa-plus', ()=>{
                 const cnt = D();
                 const win = newWindow(cnt);
+                cnt.remove(); //HACK leaves only CodeMirror
                 new Prompt(me, win);
+
 
                 // win.css({
                 //    width: 150,
