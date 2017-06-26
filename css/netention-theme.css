@@ -18,6 +18,9 @@
 
 /* DARK THEME */
 
+body.dark {
+    background-color: black;
+}
 body.dark div#view {
     background: #000;
 }
@@ -39,7 +42,9 @@ body.dark .btn:focus {
 }
 
 /* LIGHT THEME */
-
+body.dark {
+    background-color: white;
+}
 body.light div#view {
     background: #FFF;
 }

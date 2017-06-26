@@ -31,17 +31,34 @@ class HUDView extends NView {
 
         var rightMenu = $('#right-dropdown');
 
-        function faButton(id, fa, label = id, desc = label) {
-            return $('<i id="' + id + '" title="' + desc + '" class="btn view-btn fa fa-2x ' + fa + '"/>');
+        function faButton(id, fa, action, label = id, desc = label) {
+            return $('<i id="' + id + '" title="' + desc + '" class="btn view-btn fa fa-2x ' + fa + '"/>').click(()=>{
+                setTimeout(action);
+            });
         }
 
         var buttons = target.find('#left-menu');
 
         buttons.prepend([
-            faButton('go', 'fa-plus'),
-            faButton('feed', 'fa-th-list'),
-            faButton('map', 'fa-globe'),
-            faButton('graph', 'fa-code-fork'),
+            faButton('go', 'fa-plus', ()=>{
+                const cnt = D();
+                const win = newWindow(cnt);
+                new Prompt(me, win);
+
+                // win.css({
+                //    width: 150,
+                //    height: 150
+                // });
+            }),
+            faButton('feed', 'fa-th-list', ()=>{
+
+            }),
+            faButton('map', 'fa-globe', ()=>{
+                LazyLoad.js('map3d.js', () => new CesiumView().build(me, $('#view')) );
+            }),
+            faButton('graph', 'fa-code-fork', () => {
+                LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, $('#view')) );
+            }),
             faButton('timeline', 'fa-clock-o'),
         ]);
 
@@ -89,7 +106,7 @@ class HUDView extends NView {
 
         NSlider({
             //'label': 'font size'
-        }).prependTo($('#right-menu'));
+        }).appendTo($('#font-size'));
 
         $('#font-size').on('click', function () {
             $('.nslider').toggle();
@@ -101,6 +118,8 @@ class HUDView extends NView {
         if (me.AllowUserHomepage === true) {
             var messageBtn = $("<li><a href='#home'><div class='fa fa-home'></div> My Home</a></li>").prependTo(rightMenu);
         }
+
+
 
         // // FONT SIZE SLIDER
         // function NSlider(opt) {

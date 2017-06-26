@@ -1,5 +1,5 @@
-<!doctype html>
-<html class="no-js" lang="">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -58,6 +58,24 @@
 
 <div id="right-menu" class="btn-grp">
     <!-- AVATAR / MENU TOGGLE BUTTON -->
+    <!-- DARK / LIGHT THEME SWITCHER -->
+
+    <li id="theme-switcher">
+
+            <div class='fa fa-paint-brush'></div>
+            <label class="badge right switch">
+                <input type="checkbox"/>
+                <div class="slider"></div>
+            </label>
+
+    </li>
+    <li id="font-size">
+
+            <div class='fa fa-font'></div>
+            <div class="badge right">100%</div>
+
+    </li>
+
     <div id="user" class="btn view-btn">
         <img src="/img/netention-256.png" alt="User.Icon">
     </div>
@@ -79,24 +97,7 @@
                 <div class='fa fa-caret-up right'></div>
             </a>
             <ul>
-                <!-- DARK / LIGHT THEME SWITCHER -->
-                <li id="theme-switcher">
-                    <a href='#theme'>
-                        <div class='fa fa-paint-brush'></div>
-                        Theme
-                         <label class="badge right switch">
-                          <input type="checkbox">
-                          <div class="slider"></div>
-                        </label>
-                    </a>
-                </li>
-                <li id="font-size">
-                    <a href="#font-size">
-                        <div class='fa fa-font'></div>
-                        Font Size
-                        <div class="badge right">100%</div>
-                    </a>
-                </li>
+
                 <li>
                     <a href='#settings'>
                         Account
@@ -166,7 +167,8 @@
         "lib/pnotify.custom.min.js",
         'lib/dat.gui.min.js',
         "lib/eventemitter3.min.js",
-        "lib/packery.pkgd.min.js"
+        "lib/packery.pkgd.min.js",
+        "lib/interact.min.js"
     ], () => {
 
         LazyLoad.js([
@@ -174,6 +176,7 @@
             "memory.pouchdb.js",
             "memory.spimedb.js",
             "list.js",
+            "prompt.js"
             //"map2d.js",
             //"spacegraph.js"
         ], () => {
@@ -246,28 +249,27 @@
             const VIEW = $('#view');
 
             /* MAIN GUI */
-            LazyLoad.js('hud.js', () => new HUDView().build(me, $('body')) );
+            LazyLoad.js('hud.js', () => new HUDView().build(me, $('body')));
 
-            /* CREATE NOBJECT PROMPT */
-            LazyLoad.js('input-gui.js', () => new InputGUI(me, $('#find')) );
+
             //LazyLoad.js('input-text.js', () => new InputCL(me, $('#find')) );
 
             /* DEFAULT VIEW */
             //LazyLoad.js('voyager.js', () => new VoyagerView().build(me, VIEW) );
             //LazyLoad.js('map3d.js', () => new CesiumView().build(me, VIEW) );
             //LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, VIEW) );
-            LazyLoad.js('list-isotope.js', () => new ListView().build(me, VIEW) );
+            LazyLoad.js('list-isotope.js', () => new ListView().build(me, VIEW));
 
             /* SET DATABASE(S) */
             me.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
             //I.net.add( new PouchDBMemory( ((PouchDB)=>new PouchDB('dbname', {adapter: 'memory'})) ) ); //MemDown
 
             //setTimeout(() => {
-                //me.mem.add(new SpimeDBMemory("http://localhost:8080"));
-                //me.mem.add(new PouchDBMemory(
-                    //"http://localhost:5984/doc"
-                    //"http://ana:5984/doc"
-                //));
+            //me.mem.add(new SpimeDBMemory("http://localhost:8080"));
+            //me.mem.add(new PouchDBMemory(
+            //"http://localhost:5984/doc"
+            //"http://ana:5984/doc"
+            //));
             //}, 4000);
 
             //new CesiumView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
@@ -277,7 +279,6 @@
 
         });
     });
-
 
 
     //class DemoView  //TODO

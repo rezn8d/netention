@@ -142,11 +142,11 @@ function newFrame() {
     //http://interactjs.io/
 
 
-    var div = $('.windgets');
-    if (div.length === 0)
-        div = D('windgets').prependTo($('body'));
+    var tgt = $('body'); //$('.windgets');
+    if (tgt.length === 0)
+        tgt = D('windgets').prependTo($('body'));
 
-    var content = D('windget')/*.fadeIn()*/.appendTo(div);
+    var content = D('windget')/*.fadeIn()*/.appendTo(tgt);
     var dragMoveListener = event => {
         var target = event.target,
             // keep the dragged position in the data-x/data-y attributes

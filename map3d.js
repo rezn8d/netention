@@ -6,10 +6,13 @@ class CesiumView extends NView {
 
     build(me, target) {
 
+        target.html('<h1>Loading Map...</h1>');
+
         LazyLoad.js('lib/cesium/Cesium.js', ()=>{
 
             //me.info('Cesium 3D Map ready');
 
+            target.html('');
             const c = new Cesium.CesiumWidget(target[0], {
                 //http://cesiumjs.org/Cesium/Build/Documentation/CesiumWidget.html
                 sceneModePicker: true,

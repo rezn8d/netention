@@ -6,6 +6,7 @@ html, body {
 
 body {
     min-height: 100%;
+    overflow: hidden;
 }
 
 *, :after, :before {
@@ -431,4 +432,35 @@ nav ul li ul li a:hover {
     top: auto;
     bottom: auto;
     position: fixed;
+}
+
+
+#font-size, #theme-switcher {
+    list-style-type: none;
+}
+
+.windget {
+    background-color: rgba(200,200,200,0.85);
+    color: white;
+
+
+    max-width: 90%;
+    max-height: 90%;
+
+    position: fixed;
+    box-sizing: border-box;
+    pointer-events: all;
+    overflow: hidden;
+    z-index: 5000;
+}
+.windget .close_button {
+    top: 0;
+    right: 0;
+    opacity: 0.9;
+    overflow: hidden;
+    position: absolute;
+}
+
+.windget .content {
+
 }
