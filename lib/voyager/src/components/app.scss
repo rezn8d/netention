@@ -1,0 +1,100 @@
+@import 'normalize/import-now';
+
+
+
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+:global .noselect {
+  user-select: none;
+  cursor: default;
+}
+
+:global .voyager {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  background-color: #E2E9F3;
+  height: inherit;
+
+  display: flex;
+  flex-direction: column;
+
+  // We need to override the position: absolute in the split pane component
+  // See https://github.com/tomkp/react-split-pane/issues/23
+  .SplitPane {
+    position: relative !important;
+  }
+
+  .right {
+    float: right;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  h1 {
+    @extend .noselect;
+    font-size: 24px;
+    line-height:36px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  h2 {
+    @extend .noselect;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    @extend .noselect;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  h4 {
+    font-size: 12px;
+    margin: 0 0 6px;
+  }
+
+  .pane {
+    padding: 8px;
+  }
+
+  .persist-scroll{
+    /*
+      Prevent scroll bars from being hidden for OS X.
+      http://stackoverflow.com/questions/7855590/how-can-i-prevent-scroll-bars-from-being-hidden-for-os-x-trackpad-users-in-webkit
+    */
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:vertical {
+      width: 11px;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+      height: 11px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      border: 2px solid white; /* should match background, can't be transparent */
+      background-color: rgba(0, 0, 0, .5);
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      border-radius: 8px;
+    }
+  }
+
+  div, span {
+    user-select: none;
+  }
+}
+

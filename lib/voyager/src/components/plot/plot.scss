@@ -1,0 +1,42 @@
+.plot-group {
+  background-color: white;
+  overflow: hidden;
+  text-align: center;
+  padding: 8px;
+}
+
+.plot-list-item-group {
+  @extend .plot-group;
+  margin: 4px 4px 0 0;
+  flex-grow: 1;
+  max-height: 290px;
+  display: flex;
+  flex-direction: column;
+}
+
+.plot {
+  overflow: hidden;
+  padding-right: 11px;
+}
+
+.plot-scroll {
+  overflow: auto;
+  padding-right: 0px;
+}
+
+.plot-info {
+  text-align: left;
+}
+
+.plot-field-info {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.plot-command {
+  float: right;
+}
+
+.specify-button {
+  transform: scaleX(-1);
+}
