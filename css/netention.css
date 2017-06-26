@@ -75,7 +75,10 @@ body {
     box-sizing: border-box;
     font-size: 32px !important;
 }
-
+#left-menu i.view-btn:before {
+    position: relative;
+    top: 5px;
+}
 .btn {
     border-bottom: 2px solid transparent;
     cursor: pointer;
@@ -256,6 +259,8 @@ body {
 /* AVATAR / MENU TOGGLE BUTTON */
 #user img {
     width: 32px;
+    position: relative;
+    top: -4px;
 }
 
 /* SEARCH */
