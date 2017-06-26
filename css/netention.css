@@ -75,10 +75,7 @@ body {
     box-sizing: border-box;
     font-size: 32px !important;
 }
-#left-menu i.view-btn:before {
-    position: relative;
-    top: 5px;
-}
+
 .btn {
     border-bottom: 2px solid transparent;
     cursor: pointer;
