@@ -25,7 +25,7 @@ class Prompt {
             const editor = that.editor = CodeMirror(ele[0], {
                 lineNumbers: false,
                 viewportMargin: Infinity,
-                cursorBlinkRate: 0 //disable blinking
+                cursorBlinkRate: 500 //disable blinking
             });
 
             var widgets = [];

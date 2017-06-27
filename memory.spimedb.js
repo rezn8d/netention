@@ -7,30 +7,51 @@ class SpimeDBMemory extends Memory {
 
     start(me) {
         me.info([ 'start', this.I ]);
+        this.me = me;
 
         //http://localhost:8080/facet?q=%3E
 
         const that = this;
-        $.getJSON(this.url + '/facet', {q: '>'}, (x)=>{
+        $.getJSON(this.url + '/facet', {d: '>'}, (x)=>{
             //const xx = _.map(x, zz => { I: zz[0] });
-            const xx = x.map(zz => {
-                return {
-                    I: zz[0]
-                };
-            });
+            if (x && x.length > 0) {
+                const xx = x.map(zz => {
+                    return {
+                        I: zz[0]
+                    };
+                });
 
-            me.mem.put(xx, that);
+                me.put(xx, that);
+            }
         });
     }
 
     get(q, each) {
 
         const that = this;
+        const _each = each;
+        each = (e) => {
+            _each(e);
+            //HACK intercept and save in memory locally
+            that.me.put(e);
+        };
+
         $.getJSON(this.url + '/find', {q: q}, (results)=>{
-            if (results) {
+            if (results && results.length > 0) {
                 const obj = results[0];
-                const facets = results[1];
-                each(obj); //I.mem.put(obj, that);
+                for (var i = 0; i < obj.length; i++) {
+                    const x = obj[i];
+                    if (x && x.I) {
+                        each(x);
+                    }
+                }
+            }
+            const facets = results[1];
+            if (facets && facets.length > 0) {
+                _.forEach(_.map(facets, g => g[0]), f => { each({
+                    I: f
+                    /* via: ... */
+                }); } );
             }
         });
     }
