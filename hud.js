@@ -55,6 +55,7 @@ class HUDView extends NView {
                 win.right.append($('<button>').text('x1'));
                 win.right.append($('<button>').text('x2'));
 
+                win.centerOnScreen();
 
 
                 // win.css({

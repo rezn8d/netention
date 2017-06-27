@@ -4,7 +4,7 @@
 
 
 if (!window.N)
-    window.N = { };
+    window.N = {};
 
 class NObject {
 
@@ -12,9 +12,9 @@ class NObject {
 
         this.pri = 0.0;
 
-        if (typeof(x)==="string")
+        if (typeof(x) === "string")
             this.I = x;
-        else if (typeof(x)==="object")
+        else if (typeof(x) === "object")
             _.extend(this, x);
         else
             throw new Error("unrecognized argument type");
@@ -134,10 +134,8 @@ class NObject {
 }
 
 
-
-
 /** abstract memory interface */
-class Memory extends NObject{
+class Memory extends NObject {
 
     constructor(id) {
         super(id);
@@ -181,9 +179,9 @@ class Router extends Memory {
         this.active = new Set();
     }
 
-    put(x, exclude=undefined) {
+    put(x, exclude = undefined) {
         this.active.forEach(a => {
-            if (exclude && (exclude===a || a===exclude.I) )
+            if (exclude && (exclude === a || a === exclude.I))
                 return;
 
             a.put(x);
@@ -221,29 +219,41 @@ class Router extends Memory {
 class NClient extends EventEmitter {
 
 
-    constructor(opt={}) {
+    constructor(opt = {}) {
         super();
 
         _.assign(this, opt);
 
         this.mem = new Router(this);
 
-        this.on('info', (x)=>{
+        const STACK = {
+            "dir1": "down",
+            "dir2": "right",
+            "push": "bottom",
+            "animation": true,
+            "nextpos1": 25,
+            "nextpos2": 25,
+            "addpos2": 0,
+            "firstpos1": 25,
+            "firstpos2": 25
+        };
+        this.on('info', (x) => {
             var notice = new PNotify({
                 title: x,
                 type: 'info',
                 buttons: {
                     closer: false,
                     sticker: false
-                }
+                },
+                stack: STACK
             });
-            notice.get().click(function() {
+            notice.get().click(function () {
                 notice.remove();
             });
         });
 
-        this.on(['connect', 'disconnect'], (x)=>{
-           this.info(x);
+        this.on(['connect', 'disconnect'], (x) => {
+            this.info(x);
         });
 
         this.info('Ready');
@@ -251,7 +261,7 @@ class NClient extends EventEmitter {
     }
 
     /** TODO inclusion semantics */
-    put(x, excludeMemory=undefined) {
+    put(x, excludeMemory = undefined) {
         return this.mem.put(x, excludeMemory);
     }
 
@@ -260,13 +270,12 @@ class NClient extends EventEmitter {
     }
 
     info(msg) {
-        if (typeof(msg)!=="string")
+        if (typeof(msg) !== "string")
             msg = JSON.stringify(msg, null, 2);
         this.emit('info', msg);
     }
 
 }
-
 
 
 // var example = {
@@ -400,7 +409,7 @@ var sampleNobjects = {
         "icon": "fa-globe",
         "Earthquake": {
             "N": "Earthquake",
-            "icon":  "fa-rss",
+            "icon": "fa-rss",
             ">": [
                 {
                     "I": "usgs-all-hour",
@@ -418,7 +427,7 @@ var sampleNobjects = {
 };
 
 //(function () {
-   //the rest of the function
+//the rest of the function
 
 
 //}()); // END use s

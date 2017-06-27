@@ -129,6 +129,13 @@ function newWindow(content=undefined, opts) {
             opts.onClose(content);
         }
     };
+    content.centerOnScreen = function() {
+
+        content.moveTo(
+            window.innerWidth/2 - content.width()/2,
+            window.innerHeight/2 - content.height()/2
+        );
+    };
 
     const frame = D().attr('style', 'position: fixed; width: 100%; height: 100%; z-index: 1; pointer-events: none').appendTo(content);
     frame.hide();
@@ -180,20 +187,25 @@ function newFrame(content=undefined) {
     content = (content || D())/*.fadeIn()*/.appendTo(tgt);
     content.addClass('windget');
 
-    var dragMoveListener = event => {
-        var target = event.target,
-            // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
+    content.moveTo = (x, y)=>{
         // translate the element
-        target.style.webkitTransform =
-            target.style.transform =
-                'translate(' + x + 'px, ' + y + 'px)';
+        content[0].style.webkitTransform =
+            content[0].style.transform =
+                'translate(' + x + 'px,' + y + 'px)';
 
         // update the posiion attributes
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
+        content[0].setAttribute('data-x', x);
+        content[0].setAttribute('data-y', y);
+
+    };
+
+    var dragMoveListener = event => {
+        var //target = event.target,
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(content[0].getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(content[0].getAttribute('data-y')) || 0) + event.dy;
+
+        content.moveTo(x, y);
     };
 
 

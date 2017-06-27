@@ -440,7 +440,7 @@ nav ul li ul li a:hover {
 }
 
 .windget {
-    background-color: rgba(127,127,127,0.5);
+    /*background-color: rgba(127,127,127,0.5);*/
 
 
     /*max-width: 90%;*/
@@ -450,7 +450,10 @@ nav ul li ul li a:hover {
     box-sizing: border-box;
     pointer-events: all;
 
-    min-width: 120px;
+    min-height: 6em;
+    min-width: 12em;
+
+    margin: 0.5em;
 }
 .windget:hover {
     background-color: rgba(127,200,127,0.75);
@@ -459,10 +462,8 @@ nav ul li ul li a:hover {
     background-color: rgba(127,127,200,0.75);
 }
 
-.CodeMirror-sizer {
-    border: 2px solid gray;
-    margin: 2px;
-    vertical-align: middle;
+.CodeMirror-sizer:hover {
+    background-color: rgba(0,0,255,0.05);
 }
 
 .windget .CodeMirror {
