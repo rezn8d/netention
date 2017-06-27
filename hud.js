@@ -41,10 +41,20 @@ class HUDView extends NView {
 
         buttons.prepend([
             faButton('go', 'fa-plus', ()=>{
-                const cnt = D();
-                const win = newWindow(cnt);
-                cnt.remove(); //HACK leaves only CodeMirror
-                new Prompt(me, win);
+
+                const win = newWindow(undefined, {
+                    onStart: function(w) {
+                        new Prompt(me, w);
+                    },
+                    onClose: function() {
+
+                    }
+                });
+                win.below.append($('<button>').text('a1'));
+                win.below.append($('<button>').text('a2'));
+                win.right.append($('<button>').text('x1'));
+                win.right.append($('<button>').text('x2'));
+
 
 
                 // win.css({

@@ -1,3 +1,5 @@
+"use strict";
+
 function e(eleID, cssclass) {
     var x = document.createElement(eleID);
     if (cssclass)
@@ -113,12 +115,37 @@ function loadJS(url) {
     );
 }
 
-const DEFAULT_MAX_LISTENERS = 12;
+
+//TODO make 'class NWindow'
+function newWindow(content=undefined, opts) {
+
+    content = newFrame(content);
+
+    content.close = function() {
+        content.fadeOut("slow", ()=>{
+            content.remove(); //$(this) ?
+        });
+        if (opts.onClose) {
+            opts.onClose(content);
+        }
+    };
+
+    const frame = D().attr('style', 'position: fixed; width: 100%; height: 100%; z-index: 1; pointer-events: none').appendTo(content);
+    frame.hide();
 
 
+    const closeButton = E('button').appendTo(frame)
+        .attr('style', 'position: fixed; top:-2em; right: 0; width: 2em; height: 2em; background-color: orange; pointer-events: all')
+        .text('X')
+        .click(()=>{
+            content.close();
+        });
 
-function newWindow(content) {
-    const w = newFrame();
+    const below = content.below = D().attr('style', 'position: fixed; pointer-events: all; top:100%; left: 0; width: 100%; max-height: 50%').appendTo(frame);
+    const right = content.right = D().attr('style', 'position: fixed; pointer-events: all; left:100%; top: 0; height: 100%; max-width: 50%').appendTo(frame);
+
+    content.hover(() => frame.stop().fadeIn('fast'),
+                  () => frame.stop().fadeOut('slow') );
 
     // var closeButton = $('<button/>').text('x').addClass('close_button').click(function() {
     //     w.fadeOut(150, function() { $(this).remove(); });
@@ -131,22 +158,28 @@ function newWindow(content) {
         top: 0
     });*/
 
-    w.append(content = (content || $('<div/>')), /*fontSlider,*/);
+    //w.append(content = (content || $('<div/>')), /*fontSlider,*/);
 
-    content.addClass('content');
+    //content.addClass('content');
 
-    return w;
+    if (opts.onStart)
+        opts.onStart(content);
+
+
+    return content;
 }
 
-function newFrame() {
+function newFrame(content=undefined) {
     //http://interactjs.io/
 
 
     var tgt = $('body'); //$('.windgets');
-    if (tgt.length === 0)
-        tgt = D('windgets').prependTo($('body'));
+    // if (tgt.length === 0)
+    //     tgt = D('windgets').prependTo($('body'));
 
-    var content = D('windget')/*.fadeIn()*/.appendTo(tgt);
+    content = (content || D())/*.fadeIn()*/.appendTo(tgt);
+    content.addClass('windget');
+
     var dragMoveListener = event => {
         var target = event.target,
             // keep the dragged position in the data-x/data-y attributes
@@ -203,7 +236,6 @@ function newFrame() {
             //target.textContent = event.rect.width + '×' + event.rect.height;
         });
 
-    //content.close = ...
 
     return content;
 }

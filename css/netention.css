@@ -68,13 +68,13 @@ body {
 
 .view-btn {
     display: table-cell;
-    height: 42px;
-    width: 42px;
-    min-width: 42px;
+    height: 2em;
+    width: 2em;
+    min-width: 2em;
     vertical-align: middle;
     text-align: center;
     box-sizing: border-box;
-    font-size: 32px !important;
+    font-size: 150% !important;
 }
 
 .btn {
@@ -449,12 +449,6 @@ nav ul li ul li a:hover {
     position: fixed;
     box-sizing: border-box;
     pointer-events: all;
-    overflow: hidden;
-
-
-    padding: 10px;
-
-    margin: 20px 20px;
 
     min-width: 120px;
 }
@@ -463,6 +457,12 @@ nav ul li ul li a:hover {
 }
 .windget:active, .windget:focus {
     background-color: rgba(127,127,200,0.75);
+}
+
+.CodeMirror-sizer {
+    border: 2px solid gray;
+    margin: 2px;
+    vertical-align: middle;
 }
 
 .windget .CodeMirror {
@@ -474,8 +474,4 @@ nav ul li ul li a:hover {
     opacity: 0.9;
     overflow: hidden;
     position: absolute;
-}
-
-.windget .content {
-
 }
