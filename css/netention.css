@@ -454,13 +454,30 @@ nav ul li ul li a:hover {
     min-height: 6em;
     min-width: 12em;
 
+    max-height: 95%;
+    max-width: 95%;
+
     margin: 0.5em;
 
     border: 4px solid;
     border-color: transparent;
 
+
 }
 
+.grid-item {
+    margin: 2px;
+    padding: 2px;
+}
+
+.grid-item:hover {
+    border-color: white;
+    cursor: move;
+}
+
+.cesium-widget-credits {
+    display: none
+}
 .windget:hover {
     border-color: rgba(127,200,127,0.75);
 }

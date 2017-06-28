@@ -410,7 +410,7 @@ class NEdit {
 class NIcon {
     constructor(n) {
         this.n = n;
-        this.ele = D('grid-item')
+        this.ele = D('grid-item btn')
             .text(n.I).click(() => {
 
                 //queryText.val(/* dimension + ':' + */ id);
@@ -472,3 +472,38 @@ var sampleNobjects = {
 
 //}()); // END use s
 
+
+class QueryTool {
+
+    constructor(me) {
+        this.me = me;
+
+        const x = newWindow(D()
+            .append(this.input = $('<input placeholder="Query Tool" type="text"/>'))
+            .append(this.output = $('<div class="grid" style="position: relative; max-height: 80%; overflow: auto">')))
+                // data-packery='{ "itemSelector": ".grid-item", "gutter": 10 }'
+            .centerOnScreen();
+
+        const that = this;
+
+        const updateThrottled = _.throttle(()=>that.update(), 100);
+        this.input.on('input', ()=>{
+            updateThrottled();
+        });
+        this.update();
+    }
+
+    update() {
+        const q = this.input.val().trim();
+        if (q.length === 0) {
+            this.output.html('');
+        } else {
+            this.output.html(''); //loading query: ' + q);
+            this.me.get(q, (x)=>{
+                this.output.append(new NIcon(x).ele );
+               //this.output.append($('<div class="grid-item"/>').text(x.N || x.I));
+            });
+        }
+    }
+
+}

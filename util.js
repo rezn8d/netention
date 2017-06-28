@@ -156,6 +156,7 @@ function newWindow(content=undefined, opts) {
             window.innerWidth/2 - content.width()/2,
             window.innerHeight/2 - content.height()/2
         );
+        return this;
     };
 
     const frame = D().attr('style', 'position: fixed; width: 100%; height: 100%; z-index: 1; pointer-events: none').appendTo(content);
@@ -230,7 +231,7 @@ function newWindow(content=undefined, opts) {
 
     //content.addClass('content');
 
-    if (opts.onStart)
+    if (opts && opts.onStart)
         opts.onStart(content);
 
 

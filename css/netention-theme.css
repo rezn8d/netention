@@ -36,6 +36,12 @@ body.dark #find:hover {
     background-color: #1c1c1c;
 }
 
+body.dark .btn {
+    background-color: #222;
+    color: white;
+
+}
+
 body.dark .btn span.badge.right {
     background: #111;
     color:#FFF;

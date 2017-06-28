@@ -20,20 +20,6 @@
 
 <style>
 
-    .grid-item {
-        border: 1px solid blue;
-        margin: 2px;
-        padding: 2px;
-    }
-
-    .grid-item:hover {
-        border-color: white;
-        cursor: move;
-    }
-
-    .cesium-widget-credits {
-        display: none
-    }
 
 </style>
 
@@ -282,6 +268,7 @@
             //new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
             //new TableView().build(I, VIEW).query("sseehh")
 
+            new QueryTool(me);
 
         });
     });
