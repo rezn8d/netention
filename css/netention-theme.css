@@ -18,6 +18,13 @@
 
 /* DARK THEME */
 
+body.dark a, body.dark a:visited {
+    color: #94a2ff;
+}
+body.dark a:hover {
+    color: #a2ff94;
+}
+
 body.dark {
     background-color: black;
 }

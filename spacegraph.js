@@ -15,6 +15,7 @@ class SpaceGraphView extends NView {
             'spacegraph.renderer.js'
         ], () => {
 
+            target.html('Loading');
             const world = new p2.World({
                 gravity: [0, 0],
             });
@@ -22,6 +23,7 @@ class SpaceGraphView extends NView {
 
 
             const sg = new p2.WebGLRenderer(function () {
+
 
                 this.setWorld(world);
 
@@ -44,8 +46,13 @@ class SpaceGraphView extends NView {
                 // this.on("keyup", function () {
                 //     //torque = 0;
                 // });
+
             });
             world.sleepMode = p2.World.BODY_SLEEPING;
+
+            // setInterval(()=>{
+            //     console.log(sg.world);
+            // }, 1000);
 
             sg.p2 = p2;
 
@@ -56,7 +63,8 @@ class SpaceGraphView extends NView {
             const overlay = D().prependTo($(target)).attr('style', 'position: fixed; width: 100%; height: 100%; overflow: hidden; margin: 0; padding: 0; pointer-events: none');
 
             //BOUNDS
-            /* */ {
+            /* */
+            {
                 // // Create ground
                 // var planeShape = new p2.Plane();
                 // var plane = new p2.Body({
@@ -94,7 +102,7 @@ class SpaceGraphView extends NView {
                 {
                     const kinematicBody = new p2.Body({
                         type: p2.Body.KINEMATIC,
-                        position: [W/2, 0]
+                        position: [W / 2, 0]
                     });
                     kinematicBody.addShape(new p2.Box({height: H, width: thick}));
                     world.addBody(kinematicBody);
@@ -102,23 +110,24 @@ class SpaceGraphView extends NView {
                 {
                     const kinematicBody = new p2.Body({
                         type: p2.Body.KINEMATIC,
-                        position: [-W/2, 0]
+                        position: [-W / 2, 0]
                     });
                     kinematicBody.addShape(new p2.Box({height: H, width: thick}));
                     world.addBody(kinematicBody);
                 }
-            }
 
-            // for (let i = 0; i < 25; i++) {
-            //     const body = new p2.Body({
-            //         mass: 1,
-            //         position: [Math.random() * 3, Math.random() * 3],
-            //         fixedRotation: true /* prevents rotation */
-            //     });
-            //     const shape = new p2.Box({width: 0.5, height: 0.5});
-            //     body.addShape(shape);
-            //     sg.world.addBody(body);
-            // }
+
+                // for (let i = 0; i < 25; i++) {
+                //     const body = new p2.Body({
+                //         mass: 1,
+                //         position: [Math.random() * 3, Math.random() * 3],
+                //         fixedRotation: true /* prevents rotation */
+                //     });
+                //     const shape = new p2.Box({width: 0.5, height: 0.5});
+                //     body.addShape(shape);
+                //     sg.world.addBody(body);
+                // }
+            }
 
             function updateWidget(ele, x, y, pw, ph) {
 
@@ -214,10 +223,11 @@ class SpaceGraphView extends NView {
 
 
 
-            me.on('put', (x) => {
+            me.on('put', (xx) => {
 
-                for (var i = 0; i < x.length; i++) {
-                    const xx = x[i];
+
+                // for (var i = 0; i < x.length; i++) {
+                //     const xx = x[i];
                     const body = new p2.Body({
                         mass: 1,
                         position: [Math.random() * 3, Math.random() * 3],
@@ -230,6 +240,7 @@ class SpaceGraphView extends NView {
                     const shape = new p2.Box({width: 2.5, height: 2.5});
                     body.addShape(shape);
                     sg.world.addBody(body);
+
 
 
                     //setTimeout(()=>{
@@ -284,8 +295,8 @@ class SpaceGraphView extends NView {
 
 
 
-                    //}, 1000);
-                }
+                      //}, 1000);
+                //}
 
             });
 

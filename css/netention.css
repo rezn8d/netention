@@ -454,12 +454,15 @@ nav ul li ul li a:hover {
     min-width: 12em;
 
     margin: 0.5em;
+
+    border: 4px solid;
+    border-color: transparent;
 }
 .windget:hover {
-    background-color: rgba(127,200,127,0.75);
+    border-color: rgba(127,200,127,0.75);
 }
 .windget:active, .windget:focus {
-    background-color: rgba(127,127,200,0.75);
+    border-color: rgba(127,127,200,0.75);
 }
 
 .CodeMirror-sizer:hover {
@@ -475,4 +478,12 @@ nav ul li ul li a:hover {
     opacity: 0.9;
     overflow: hidden;
     position: absolute;
+}
+
+
+/* pnotify override */
+.brighttheme-info {
+    color: white;
+    background-color: rgba(127,127,127,0.5);
+    padding: 0 !important;
 }

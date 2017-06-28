@@ -12,16 +12,19 @@ class SpimeDBMemory extends Memory {
         //http://localhost:8080/facet?q=%3E
 
         const that = this;
-        $.getJSON(this.url + '/facet', {d: '>'}, (x)=>{
+        $.getJSON(this.url + '/facet', {d: '>'}, (obj)=>{
             //const xx = _.map(x, zz => { I: zz[0] });
-            if (x && x.length > 0) {
-                const xx = x.map(zz => {
-                    return {
-                        I: zz[0]
-                    };
-                });
-
-                me.put(xx, that);
+            if (obj && obj.length > 0) {
+                for (var i = 0; i < obj.length; i++) {
+                    const x = obj[i];
+                    if (x && x.length > 0) {
+                        if (x && x.length > 0) {
+                            me.put({
+                                I: x
+                            }, that);
+                        }
+                    }
+                }
             }
         });
     }
@@ -41,9 +44,12 @@ class SpimeDBMemory extends Memory {
                 const obj = results[0];
                 for (var i = 0; i < obj.length; i++) {
                     const x = obj[i];
-                    if (x && x.I) {
-                        each(x);
+                    if (x && x.length > 0) {
+                        each({
+                            I: x
+                        });
                     }
+
                 }
             }
             const facets = results[1];

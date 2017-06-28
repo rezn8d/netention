@@ -157,7 +157,7 @@ function Renderer(scenes, options){
     this.bodyPolygonPaths = {}; // body id -> array<vec2>
     this.state = Renderer.DEFAULT;
 
-    this.zoom = 200; // pixels per unit
+    this.zoom = 100; // pixels per unit
 
     this.cameraPosition = vec2.create();
 
@@ -1222,7 +1222,9 @@ function WebGLRenderer(scenes, options){
         });
         that.drawRectangle(g, tmpBox, 0, 0, that.lineWidth);
     });
+
 }
+
 WebGLRenderer.prototype = Object.create(Renderer.prototype);
 
 /**

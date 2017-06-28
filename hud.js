@@ -39,23 +39,10 @@ class HUDView extends NView {
 
         var buttons = target.find('#left-menu');
 
+        const that = this;
         buttons.prepend([
             faButton('go', 'fa-plus', ()=>{
-
-                const win = newWindow(undefined, {
-                    onStart: function(w) {
-                        new Prompt(me, w);
-                    },
-                    onClose: function() {
-
-                    }
-                });
-                win.below.append($('<button>').text('a1'));
-                win.below.append($('<button>').text('a2'));
-                win.right.append($('<button>').text('x1'));
-                win.right.append($('<button>').text('x2'));
-
-                win.centerOnScreen();
+                that.spawnNobject(me);
 
 
                 // win.css({
@@ -143,4 +130,38 @@ class HUDView extends NView {
         // } //end build
 
     }
+
+    spawnNobject(me) {
+        const x = me.nobject();
+
+        var prompt;
+
+        const win = newWindow(undefined, {
+            onStart: function (w) {
+                prompt = new Prompt(me, w, w.left);
+            },
+            onClose: function () {
+
+                x.N = prompt.editor.getLine(0) || x.I;
+                x.D = prompt.editor.getValue();
+
+                if (x)
+                    me.put(x); //save if not deleted
+            }
+        });
+
+        win.below.css({'textAlign': 'right'});
+
+        const shareButton = $('<button><i class="fa fa-share-alt"></i></button>');
+        win.below.append(shareButton);
+
+        const saveButton = $('<button><i class="fa fa-floppy-o"></i></button>');
+        win.below.append(saveButton);
+
+        win.right.append($('<button>').text('x1'));
+        win.right.append($('<button>').text('x2'));
+
+        win.centerOnScreen();
+    }
+
 }

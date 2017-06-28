@@ -1,5 +1,21 @@
 "use strict";
 
+var uuidx = ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.~");
+
+//add some extended ascii http://www.ascii-code.com/
+for (var i = 192; i <= 255; i++) {
+    uuidx = uuidx + String.fromCharCode(i);
+}
+
+function uuid(len=16) {
+    const cx = uuidx.length;
+    var u = '';
+    for (var i = 0; i < len; i++) {
+        u += uuidx[parseInt(Math.random()*cx)]
+    }
+    return u;
+}
+
 function e(eleID, cssclass) {
     var x = document.createElement(eleID);
     if (cssclass)
@@ -115,6 +131,11 @@ function loadJS(url) {
     );
 }
 
+function assert(x, reason="") {
+    if (!x) {
+        throw new Error('FAIL: ' + reason);
+    }
+}
 
 //TODO make 'class NWindow'
 function newWindow(content=undefined, opts) {
@@ -149,6 +170,7 @@ function newWindow(content=undefined, opts) {
         });
 
     const below = content.below = D().attr('style', 'position: fixed; pointer-events: all; top:100%; left: 0; width: 100%; max-height: 50%').appendTo(frame);
+    const left = content.left = D().attr('style', 'position: fixed; text-align: right; pointer-events: all; right:100%; top: 0; height: 100%; max-width: 50%').appendTo(frame);
     const right = content.right = D().attr('style', 'position: fixed; pointer-events: all; left:100%; top: 0; height: 100%; max-width: 50%').appendTo(frame);
 
     content.hover(() => frame.stop().fadeIn('fast'),

@@ -3,7 +3,7 @@
 /** manages the state of an input text prompt and its related pop-ups */
 class Prompt {
 
-    constructor(me, ele) {
+    constructor(me, ele, menu=undefined) {
         this.ele = ele;
         this.me = me;
 
@@ -68,11 +68,13 @@ class Prompt {
 
 
                         const x = document.createElement('div');
-                        const xx = toolbar($(x).attr('style', 'text-align:center '));
-                        cm.addLineWidget(0, x);
-                        widgets.push($(x));
-                        widgets.push($(x));
+                        const xx = toolbar($(x));
+                        if (menu)
+                            menu.append(x);
+                        else
+                            cm.addLineWidget(0, x);
 
+                        widgets.push($(x));
 
                         cm.refresh();
                         //cm.addLineWidget(3, E('button').text('wtf')[0]);
@@ -91,7 +93,7 @@ class Prompt {
 
                     const val = cm.getValue().trim();
                     reset();
-                    me.put({I: 'x' + parseInt(Math.random() * 1000099999) /* TODO UUID */, N: val});
+                    me.put({I: uuid(), N: val});
                     {
 
                         //add finder
@@ -140,7 +142,7 @@ class Prompt {
                     //I.info("share: " + q);
 
                     me.put({
-                        I: 'x' + parseInt(10000000 * Math.random()), //TODO UUID
+                        I: uuid(),
                         N: q
                     });
                 }

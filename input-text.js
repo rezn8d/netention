@@ -91,7 +91,7 @@ class InputCL {
 
                     const val = cm.getValue().trim();
                     reset();
-                    me.put({I: 'x' + parseInt(Math.random() * 1000099999) /* TODO UUID */, N: val});
+                    me.put({I: uuid(), N: val});
                     {
 
                         //add finder
@@ -140,7 +140,7 @@ class InputCL {
                     //I.info("share: " + q);
 
                     me.put({
-                        I: 'x' + parseInt(10000000 * Math.random()), //TODO UUID
+                        I: uuid(), //TODO UUID
                         N: q
                     });
                 }

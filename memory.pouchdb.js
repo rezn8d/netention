@@ -24,6 +24,9 @@ class PouchDBMemory extends Memory {
         const that = this;
 
         LazyLoad.js('lib/pouchdb.min.js', () => {
+
+            //PouchDB.debug.enable('*');
+
             LazyLoad.js(['memory.min.js', 'find.min.js', 'quick-search.min.js'].map(x => 'lib/pouchdb.' + x), () => {
 
                 if (typeof(that.pouchBuilder) === "string") {
@@ -80,8 +83,7 @@ class PouchDBMemory extends Memory {
     }
 
     get(query, each) {
-        if (!this.db)
-            return; //not connected yet TODO queue it
+        if (!this.db) return; //not connected yet TODO queue it
 
         const db = this.db;
 
@@ -135,17 +137,17 @@ class PouchDBMemory extends Memory {
 
     ADD(n) {
 
-        if (!this.db)
-            return; //not ready yet or something //TODO enqueue
+        if (!this.db) return; //not connected yet TODO queue it
 
         const that = this;
 
         if (n.length) {
-            this.db.bulkDocs(n).then((d)=>{
-                //console.log('bulk', d);
-            }).catch((err)=>{
-                console.warn(that.I, n, err.toString())
-            });
+            // this.db.bulkDocs(n).then((d)=>{
+            //     //console.log('bulk', d);
+            // }).catch((err)=>{
+            //     console.warn(that.I, n, err.toString())
+            // });
+            _.each(n, (x) => that.ADD(x));
             return;
         }
 
@@ -170,9 +172,9 @@ class PouchDBMemory extends Memory {
                 return n;
             }
 
-        }).then((d)=>{
+        })/*.then((d)=>{
             //console.log('ok', d);
-        }).catch(err => {
+        })*/.catch(err => {
             console.warn(that.I, n, err.toString())
         });
 

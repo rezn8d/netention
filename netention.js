@@ -6,9 +6,12 @@
 if (!window.N)
     window.N = {};
 
+
+
+
 class NObject {
 
-    constructor(x) {
+    constructor(x=undefined) {
 
         this.pri = 0.0;
 
@@ -16,8 +19,9 @@ class NObject {
             this.I = x;
         else if (typeof(x) === "object")
             _.extend(this, x);
-        else
-            throw new Error("unrecognized argument type");
+        else {
+            this.I = uuid();
+        }
     }
 
     activate(p) {
@@ -186,7 +190,6 @@ class Router extends Memory {
 
             a.put(x);
         });
-        this.me.emit('put', x);
     }
 
     get(query, each) {
@@ -196,7 +199,6 @@ class Router extends Memory {
             } catch (e) {
                 console.warn(a, e);
             }
-
         });
     }
 
@@ -239,20 +241,21 @@ class NClient extends EventEmitter {
         };
         this.on('info', (x) => {
             var notice = new PNotify({
-                title: x,
+                title: '',
+                text:  x,
                 type: 'info',
                 buttons: {
-                    closer: false,
-                    sticker: false
+                    closer: true,
+                    sticker: true
                 },
                 stack: STACK
             });
-            notice.get().click(function () {
-                notice.remove();
-            });
+            // notice.get().click(function () {
+            //     notice.remove();
+            // });
         });
 
-        this.on(['connect', 'disconnect'], (x) => {
+        this.on('put' /*['put', 'connect', 'disconnect']*/, (x) => {
             this.info(x);
         });
 
@@ -262,19 +265,55 @@ class NClient extends EventEmitter {
 
     /** TODO inclusion semantics */
     put(x, excludeMemory = undefined) {
-        return this.mem.put(x, excludeMemory);
+        var y = this.mem.put(x, excludeMemory);
+        this.emit('put', x);
+        return y;
     }
 
     get(query, each) {
+        assert(query);
+        assert(each);
         return this.mem.get(query, each);
     }
 
     info(msg) {
-        if (typeof(msg) !== "string")
+
+        if (msg.N) {
+            msg = ('<a href="#' + msg.I + '">' + msg.N + '</a>');
+        } else if (msg.I) {
+            msg = ('<a href="#' + msg.I + '">' + msg.I + '</a>');
+        } else if (typeof(msg) !== "string") {
             msg = JSON.stringify(msg, null, 2);
+        }
+
         this.emit('info', msg);
     }
 
+
+    merge(other) {
+        //TODO use non-lodash method
+        _.each(other, (v, k) => {
+            console.log(k, v);
+            //TODO merge
+        });
+        return this;
+    }
+
+    nobject(id = undefined) {
+        var x;
+        if (!id) {
+            x = new NObject(uuid());
+            this.put(x);
+        } else {
+            x = new NObject(id);
+            const that = this;
+            this.get(id, (y) => {
+                that.merge(y);
+            });
+        }
+
+        return x;
+    }
 }
 
 
