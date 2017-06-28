@@ -303,6 +303,7 @@ class NClient extends EventEmitter {
         var x;
         if (!id) {
             x = new NObject(uuid());
+            x['@'] = Date.now();
             this.put(x);
         } else {
             x = new NObject(id);
