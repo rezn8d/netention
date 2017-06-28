@@ -49,7 +49,7 @@ body.dark .btn:focus {
 }
 
 /* LIGHT THEME */
-body.dark {
+body.light {
     background-color: white;
 }
 body.light div#view {

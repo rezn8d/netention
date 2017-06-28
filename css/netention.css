@@ -75,6 +75,7 @@ body {
     text-align: center;
     box-sizing: border-box;
     font-size: 150% !important;
+
 }
 
 .btn {
@@ -457,7 +458,9 @@ nav ul li ul li a:hover {
 
     border: 4px solid;
     border-color: transparent;
+
 }
+
 .windget:hover {
     border-color: rgba(127,200,127,0.75);
 }

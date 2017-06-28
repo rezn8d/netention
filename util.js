@@ -169,6 +169,45 @@ function newWindow(content=undefined, opts) {
             content.close();
         });
 
+    var max = false;
+    var normalSize = {};
+    const zoomButton = E('button').appendTo(frame)
+        .attr('style', 'position: fixed; top:-2em; left: 0; width: 2em; height: 2em; background-color: orange; pointer-events: all')
+        .text('+')
+        .click(()=>{
+            //toggle zoom
+            if (max) {
+                max = false;
+                content.css({'fontSize': '100%'});
+                content.moveTo(normalSize.x, normalSize.y);
+                content.size(normalSize.w, normalSize.h);
+            } else {
+                max = true;
+
+
+                var pos = content.position();
+
+                // var sx = (window.innerWidth / content[0].clientWidth)/4;
+                // var sy = sx;
+                // var tx = pos.left;
+                // var ty = pos.top;
+                // let t = 'translate(' + parseInt(tx) + 'px,' + parseInt(ty) + 'px) scale(' + sx + ',' + sy + ')';
+                // $('body').css({'transform': t});
+
+
+                //save normal size
+                normalSize.x = pos.left;
+                normalSize.y = pos.top;
+                normalSize.w = content[0].clientWidth;
+                normalSize.h = content[0].clientHeight;
+
+                const margin = 64;
+                content.size(window.innerWidth-margin*2, window.innerHeight - margin*2);
+                content.moveTo(margin, margin);
+                content.css({'fontSize': '150%'});
+            }
+        });
+
     const below = content.below = D().attr('style', 'position: fixed; pointer-events: all; top:100%; left: 0; width: 100%; max-height: 50%').appendTo(frame);
     const left = content.left = D().attr('style', 'position: fixed; text-align: right; pointer-events: all; right:100%; top: 0; height: 100%; max-width: 50%').appendTo(frame);
     const right = content.right = D().attr('style', 'position: fixed; pointer-events: all; left:100%; top: 0; height: 100%; max-width: 50%').appendTo(frame);
@@ -208,6 +247,11 @@ function newFrame(content=undefined) {
 
     content = (content || D())/*.fadeIn()*/.appendTo(tgt);
     content.addClass('windget');
+
+    content.size = (x, y)=>{
+        content[0].style.width = x + 'px';
+        content[0].style.height = y + 'px';
+    };
 
     content.moveTo = (x, y)=>{
         // translate the element
@@ -255,8 +299,7 @@ function newFrame(content=undefined) {
 
 
             // update the element's style
-            target.style.width = event.rect.width + 'px';
-            target.style.height = event.rect.height + 'px';
+            content.size(event.rect.width, event.rect.height);
 
             // translate when resizing from top or left edges
             x += event.deltaRect.left;
