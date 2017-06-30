@@ -1,4 +1,4 @@
-class ListView extends NView {
+class ListIsotope extends NView {
 
     constructor() {
         super();
@@ -6,14 +6,13 @@ class ListView extends NView {
 
     build(me, target) {
 
+
         LazyLoad.js('lib/isotope.pkgd.min.js', ()=>{
 
             //me.info('Isotope ready');  target[0]
 
             const c = $(target[0]).html('<div id="list"></div>');
             $('#list').attr('style', 'width: 100%; height: 100%');
-
-            //viewer.extend(Cesium.viewerCesiumNavigationMixin, {});
 
         /*
             function genImages() {

@@ -1,4 +1,4 @@
-class TableView extends NView {
+class ListView extends NView {
 
     constructor() {
         super();
@@ -13,6 +13,5 @@ class TableView extends NView {
         };
         target.html(y);
         return y;
-
     }
 }

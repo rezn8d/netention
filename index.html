@@ -44,28 +44,22 @@
 </div>
 
 <div id="right-menu" class="btn-grp">
-    <!-- AVATAR / MENU TOGGLE BUTTON -->
-    <!-- DARK / LIGHT THEME SWITCHER -->
-
-    <li id="theme-switcher">
-
-            <div class='fa fa-paint-brush'></div>
-            <label class="badge right switch">
-                <input type="checkbox"/>
-                <div class="slider"></div>
-            </label>
-
-    </li>
-    <li id="font-size">
-
-            <div class='fa fa-font'></div>
-            <div class="badge right">100%</div>
-
-    </li>
-
-    <div id="user" class="btn view-btn">
+    <!-- DARK / LIGHT THEME TOGGLE -->
+    <div id="theme-switcher" class="view-btn" title="Switch Theme (Dark/Light)">
+        <i class="fa fa-fw fa-tint"></i>
+    </div>
+    <!-- FONT SLIDER TOGGLE -->
+    <div id="font-size" class="view-btn" title="Change Font Size">
+        <i class="fa fa-fw fa-font"></i>
+    </div>
+    <!-- AVATAR / USER MENU TOGGLE -->
+    <div id="user" class="view-btn">
         <img src="/img/netention-256.png" alt="User.Icon">
     </div>
+</div>
+
+<div id="font-size-dropdown" >
+    <div class="badge right">100%</div>
 </div>
 
 <nav class='right animated bounceInDown'>
@@ -164,7 +158,7 @@
             "memory.pouchdb.js",
             "memory.spimedb.js",
             "list.js",
-            "prompt.js"
+            //"prompt.js"
             //"map2d.js",
             //"spacegraph.js"
         ], () => {
@@ -221,10 +215,10 @@
                 },
 
                 // VIEWS
-                "IncludeFeed": true,
-                "IncludeGraph": true,
+                "IncludeList": true,
                 "IncludeMap": true,
                 "IncludeTimeline": true,
+                "IncludeGraph": true,
                 // USERS
                 "AllowUserHomepage": true,
                 "AllowInstantMessaging": true,
@@ -249,7 +243,8 @@
             //LazyLoad.js('voyager.js', () => new VoyagerView().build(me, VIEW) );
             //LazyLoad.js('map3d.js', () => new CesiumView().build(me, VIEW) );
             //LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, VIEW) );
-            LazyLoad.js('list-isotope.js', () => new ListView().build(me, VIEW));
+            //LazyLoad.js('list-isotope.js', () => new ListIsotope().build(me, VIEW));
+            LazyLoad.js('list.js', () => new ListView().build(me, VIEW));
 
             /* SET DATABASE(S) */
             me.mem.add(new PouchDBMemory()); //Browser default, IndexedDB (probably)
@@ -268,7 +263,7 @@
             //new SpaceGraphView().build({}, D().appendTo('#view').attr('style', 'width: 30%; float: left'));
             //new TableView().build(I, VIEW).query("sseehh")
 
-            new QueryTool(me);
+            //new QueryTool(me);
 
         });
     });

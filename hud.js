@@ -37,34 +37,63 @@ class HUDView extends NView {
             });
         }
 
-        var buttons = target.find('#left-menu');
+        var buttons = $('#left-menu');
 
         const that = this;
+
+        // CREATE ADD NOBJECT BUTTON
         buttons.prepend([
             faButton('go', 'fa-plus', ()=>{
-                that.spawnNobject(me);
+
+                //that.spawnNobject(me);
 
 
                 // win.css({
                 //    width: 150,
                 //    height: 150
                 // });
-            }),
-            faButton('feed', 'fa-th-list', ()=>{
-
-            }),
-            faButton('map', 'fa-globe', ()=>{
-                LazyLoad.js('map3d.js', () => new CesiumView().build(me, $('#view')) );
-            }),
-            faButton('graph', 'fa-code-fork', () => {
-                LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, $('#view')) );
-            }),
-            faButton('timeline', 'fa-clock-o'),
+            })
         ]);
+
+        if (me.IncludeList === true) {
+            buttons.append([
+                faButton('feed', 'fa-th-list', ()=>{
+                    new ListViewBasic().build(me, VIEW);
+                })
+            ]);
+        }
+
+        if (me.IncludeMap === true) {
+            buttons.append([
+                faButton('timeline', 'fa-clock-o')
+            ])
+        }
+
+        if (me.IncludeTimeline === true) {
+            buttons.append([
+                faButton('map', 'fa-globe', ()=>{
+                    LazyLoad.js('map3d.js', () => new CesiumView().build(me, $('#view')) );
+                })
+            ]);
+        }
+
+        if (me.IncludeGraph === true) {
+            buttons.append([
+                faButton('graph', 'fa-code-fork', () => {
+                    LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, $('#view')) );
+                })
+            ]);
+        }
+
+        $('#left-menu .view-btn').on('click', function() {
+            $('#left-menu i').removeClass('active');
+            $(this).addClass('active');
+        });
+
 
         // THEME SWITCHER
         target.addClass(me.DefaultTheme);
-        $('#theme-switcher').on('change', function () {
+        $('#theme-switcher').on('click', function () {
             if (target.hasClass("dark")) {
                 target.removeClass('dark').addClass('light');
             } else {
@@ -98,7 +127,7 @@ class HUDView extends NView {
                 // var percent = (newValue / 100).toFixed(2);
                 // var sum = (opt.max * percent);
                 $('body').css('font-size', (newValue + "%"));
-                $('#font-size .badge').html(newValue + "%");
+                $('#font-size-dropdown .badge').html(newValue + "%");
             });
 
             return opt.element;
@@ -106,10 +135,10 @@ class HUDView extends NView {
 
         NSlider({
             //'label': 'font size'
-        }).appendTo($('#font-size'));
+        }).appendTo($('#font-size-dropdown'));
 
         $('#font-size').on('click', function () {
-            $('.nslider').toggle();
+            $('#font-size-dropdown').toggle();
         });
 
         if (me.AllowInstantMessaging === true) {
@@ -130,7 +159,7 @@ class HUDView extends NView {
         // } //end build
 
     }
-
+/*
     spawnNobject(me) {
         const x = me.nobject();
 
@@ -163,5 +192,5 @@ class HUDView extends NView {
 
         win.centerOnScreen();
     }
-
+*/
 }

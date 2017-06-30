@@ -54,12 +54,15 @@ body {
     left: 0;
     position: fixed;
     margin: 0;
+    height: 42px;
+    display: table;
 }
 #right-menu {
     top: 0;
     right: 0;
     position: fixed;
     margin: 0;
+    height: 42px;
 }
 
 .btn-grp {
@@ -68,13 +71,11 @@ body {
 
 .view-btn {
     display: table-cell;
-    height: 2em;
-    width: 2em;
-    min-width: 2em;
+    width: 42px;
     vertical-align: middle;
     text-align: center;
     box-sizing: border-box;
-    font-size: 150% !important;
+    font-size: 32px !important;
 
 }
 
@@ -99,67 +100,29 @@ body {
     left: -5px;
 }
 
-
-/* THEME SLIDER SWITCH */
-.switch {
-  position: relative;
-  display: inline-block;
-  background: transparent !important;
-  width: 60px;
-  height: 34px;
-  top: -7px;
-}
-.switch input {display:none;}
-
-/* The slider */
-.switch .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #111;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-.switch .slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-.switch input:checked + .slider {
-  background-color: #FFF;
-}
-.switch input:checked + .slider:before {
-  background-color: #111;
-}
-
-.switch input:focus + .slider {
-  box-shadow: 0 0 1px #FC0;
-}
-.switch input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-/* Rounded sliders */
-.switch .slider.round {
-  border-radius: 34px;
-}
-.switch .slider.round:before {
-  border-radius: 50%;
+/* Theme Switcher */
+i.fa-tint {
+    position: relative;
+    top: 2px;
 }
 
 /* nSlider */
-.nslider {
+#font-size-dropdown {
+    display:block;
+    position: fixed;
+    top:48px;
+    right:10px;
+    height: 42px;
+    width:120px;
     display:none;
+}
+#font-size-dropdown .badge {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    font-size: 12px !important;
+}
+.nslider {
     height:42px;
     font-size:0;
 }
@@ -254,6 +217,18 @@ body {
   background: #2c2c2c;
 }
 
+/* pNotify */
+.ui-pnotify-text {
+    padding: 10px 10px 10px 30px;
+}
+.ui-pnotify-icon, .ui-pnotify-icon span {
+    display: block;
+    float: left;
+    margin-right: .2em;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
 
 /* AVATAR / MENU TOGGLE BUTTON */
 #user img {

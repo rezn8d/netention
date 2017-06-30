@@ -14,7 +14,9 @@
 .btn:focus {
     color:#FC0;
 }
-
+.ui-pnotify-icon, .ui-pnotify-icon span {
+    color: #FC0;
+}
 
 /* DARK THEME */
 
@@ -53,6 +55,9 @@ body.dark .btn:hover,
 body.dark .btn:focus {
     background: rgba(255,255,255, 0.3);
 }
+body.dark #font-size-dropdown .badge {
+    color: #FFF;
+}
 
 /* LIGHT THEME */
 body.light {
@@ -71,6 +76,9 @@ body.light .btn span.badge.right {
 body.light .btn:hover,
 body.light .btn:focus {
     background: rgba(0, 0, 0, 0.3);
+}
+body.light #font-size-dropdown .badge {
+    color: #111;
 }
 
 /* LIGHT and DARK THEMES */

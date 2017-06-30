@@ -244,6 +244,7 @@ class NClient extends EventEmitter {
                 title: '',
                 text:  x,
                 type: 'info',
+                icon: 'fa fa-exclamation-triangle',
                 buttons: {
                     closer: true,
                     sticker: true
