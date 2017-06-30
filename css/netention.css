@@ -426,8 +426,7 @@ nav ul li ul li a:hover {
     box-sizing: border-box;
     pointer-events: all;
 
-    min-height: 6em;
-    min-width: 12em;
+
 
     max-height: 95%;
     max-width: 95%;
@@ -438,6 +437,13 @@ nav ul li ul li a:hover {
     border-color: transparent;
 
 
+}
+
+.editor {
+    padding: 0.5em;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
 }
 
 .grid-item {

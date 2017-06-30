@@ -41,11 +41,13 @@ class HUDView extends NView {
 
         const that = this;
 
+        const VIEW = $('#view');
+
         // CREATE ADD NOBJECT BUTTON
         buttons.prepend([
             faButton('go', 'fa-plus', ()=>{
 
-                //that.spawnNobject(me);
+                that.spawnNobject(me);
 
             })
         ]);
@@ -61,7 +63,7 @@ class HUDView extends NView {
         if (me.IncludeMap === true) {
             buttons.append([
                 faButton('map', 'fa-globe', ()=>{
-                    LazyLoad.js('map3d.js', () => new CesiumView().build(me, $('#view')) );
+                    LazyLoad.js('map3d.js', () => new CesiumView().build(me, VIEW) );
                 })
             ])
         }
@@ -77,7 +79,7 @@ class HUDView extends NView {
         if (me.IncludeGraph === true) {
             buttons.append([
                 faButton('graph', 'fa-code-fork', () => {
-                    LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, $('#view')) );
+                    LazyLoad.js('spacegraph.js', () => new SpaceGraphView().build(me, VIEW) );
                 })
             ]);
         }
@@ -158,7 +160,7 @@ class HUDView extends NView {
         // } //end build
 
     }
-/*
+
     spawnNobject(me) {
         const x = me.nobject();
 
@@ -191,5 +193,5 @@ class HUDView extends NView {
 
         win.centerOnScreen();
     }
-*/
+
 }

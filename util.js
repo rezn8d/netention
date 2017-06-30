@@ -263,7 +263,6 @@ function newFrame(content=undefined) {
         // update the posiion attributes
         content[0].setAttribute('data-x', x);
         content[0].setAttribute('data-y', y);
-
     };
 
     var dragMoveListener = event => {

@@ -59,6 +59,11 @@ body.dark #font-size-dropdown .badge {
     color: #FFF;
 }
 
+body.dark .editor {
+    background-color: white;
+    color: black;
+}
+
 /* LIGHT THEME */
 body.light {
     background-color: white;
