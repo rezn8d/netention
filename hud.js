@@ -47,32 +47,29 @@ class HUDView extends NView {
 
                 //that.spawnNobject(me);
 
-
-                // win.css({
-                //    width: 150,
-                //    height: 150
-                // });
             })
         ]);
 
         if (me.IncludeList === true) {
             buttons.append([
                 faButton('feed', 'fa-th-list', ()=>{
-                    new ListViewBasic().build(me, VIEW);
+                    LazyLoad.js('list.js', () => new ListView().build(me, VIEW));
                 })
             ]);
         }
 
         if (me.IncludeMap === true) {
             buttons.append([
-                faButton('timeline', 'fa-clock-o')
+                faButton('map', 'fa-globe', ()=>{
+                    LazyLoad.js('map3d.js', () => new CesiumView().build(me, $('#view')) );
+                })
             ])
         }
 
         if (me.IncludeTimeline === true) {
             buttons.append([
-                faButton('map', 'fa-globe', ()=>{
-                    LazyLoad.js('map3d.js', () => new CesiumView().build(me, $('#view')) );
+                faButton('timeline', 'fa-clock-o', ()=>{
+                    LazyLoad.js('voyager.js', () => new VoyagerView().build(me, VIEW) );
                 })
             ]);
         }
@@ -84,6 +81,8 @@ class HUDView extends NView {
                 })
             ]);
         }
+
+
 
         $('#left-menu .view-btn').on('click', function() {
             $('#left-menu i').removeClass('active');
