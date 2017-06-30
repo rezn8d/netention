@@ -172,8 +172,8 @@ class HUDView extends NView {
             },
             onClose: function () {
 
-                x.N = prompt.editor.getLine(0) || x.I;
-                x.D = prompt.editor.getValue();
+                //x.N = prompt.editor.getLine(0) || x.I;
+                //x.D = prompt.editor.getValue();
 
                 if (x)
                     me.put(x); //save if not deleted

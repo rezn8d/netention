@@ -8,21 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-
-<link type="text/css" rel="stylesheet" href="css/normalize.css">
-<link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
-
-<link type="text/css" rel="stylesheet" href="lib/pnotify.custom.min.css">
-
-
-<link type="text/css" rel="stylesheet" href="css/netention.css">
-<link type="text/css" rel="stylesheet" href="css/netention-theme.css">
-
-<style>
-
-
-</style>
-
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade"><strong>Upgrade</strong> browser <a href="http://browsehappy.com/">to improve
@@ -152,12 +137,14 @@
         "lib/interact.min.js"
     ], () => {
 
+
+        LazyLoad.css(['css/normalize.css', 'css/font-awesome.min.css', 'lib/pnotify.custom.min.css', 'css/netention.css', 'css/netention-theme.css']);
+
         LazyLoad.js([
             "netention.js",
             "memory.webrtc.js",
             "memory.pouchdb.js",
             "memory.spimedb.js",
-            "list.js",
             "prompt.js",
             //"map2d.js",
             "spacegraph.js"
@@ -265,6 +252,7 @@
 
             //new QueryTool(me);
 
+            //new PromptTest().build(me, VIEW);
         });
     });
 
