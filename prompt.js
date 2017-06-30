@@ -27,14 +27,11 @@ class Prompt {
             });
 
             const doc = D();
+            doc.addClass('editor');
             const editor = E('p'); //.attr('style', 'height:100%; width: 100%;').attr('contenteditable', 'true');
 
+
             editable.add(editor);
-
-            //console.log(editable);
-
-            ///ele.append(editable);
-            //console.log(ele);
             doc.append(editor);
             ele.append(doc);
 
