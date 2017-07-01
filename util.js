@@ -179,7 +179,7 @@ function newWindow(content=undefined, opts) {
             //toggle zoom
             if (max) {
                 max = false;
-                content.css({'fontSize': '100%'});
+                content.css({fontSize: '100%', lineHeight: '100%'});
                 content.moveTo(normalSize.x, normalSize.y);
                 content.size(normalSize.w, normalSize.h);
             } else {
@@ -205,7 +205,7 @@ function newWindow(content=undefined, opts) {
                 const margin = 64;
                 content.size(window.innerWidth-margin*2, window.innerHeight - margin*2);
                 content.moveTo(margin, margin);
-                content.css({'fontSize': '150%'});
+                content.css({fontSize: '150%', lineHeight: '150%'});
             }
         });
 

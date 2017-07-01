@@ -9,26 +9,35 @@ class Prompt {
 
         const that = this;
 
+        this.var = { };
+
 
         LazyLoad.js('lib/editable.js', ()=>{
 
             var editable = new Editable({
-                // here you can pass an iframe window if required
-                window: window,
-
-                // activate the default behaviour for merge, split and insert
-                defaultBehavior: true,
-
-                // fire selection events on mouse move
-                mouseMoveSelectionChanges: false,
+                // // here you can pass an iframe window if required
+                // window: window,
+                //
+                // // activate the default behaviour for merge, split and insert
+                // defaultBehavior: true,
+                //
+                // // fire selection events on mouse move
+                // mouseMoveSelectionChanges: false,
 
                 // control the 'spellcheck' attribute on editable elements
                 browserSpellcheck: false
             });
 
             const doc = D();
-            doc.addClass('editor');
-            const editor = E('p'); //.attr('style', 'height:100%; width: 100%;').attr('contenteditable', 'true');
+            that.doc = doc;
+            doc.addClass('editor prompt');
+            const editor = E('span').attr('contenteditable','true'); //.attr('style', 'height:100%; width: 100%;').attr('contenteditable', 'true');
+
+
+            doc.click(()=>{
+                //TODO save last location so it can be restored here. otherwise by default, 'editor' refers to the first of the lines this editable.js creates
+                editor.focus();
+            });
 
 
             editable.add(editor);
@@ -38,22 +47,37 @@ class Prompt {
 
             //'focus', 'blur', 'cursor', 'selection', 'newline' == shift+enter
             editable.on('change', elem => {
-                const currentContent = //editable.getContent(elem);
-                    doc.html();
-                console.log('prompt', currentContent);
+                //const x = editable.getContent(elem);
+                // let row = $(elem).index();
+                // that.update(row, x);
+                //const allContent = doc.html();
             });
-            // editable.on('insert', (elem, direction, cursor) => {
-            //     if (direction === 'after') {
-            //         const e = E('br')[0];
-            //         cursor.insertAfter(e);
-            //         cursor.
-            //     } else if (direction === 'before') {
-            //         // your code...
-            //         console.log(direction);
-            //     }
-            //     return false;
-            // });
-            editor.focus();
+            var currentFocus;
+            editable.on('focus', nextFocus => {
+
+                //console.log(currentFocus, nextFocus);
+
+                if (currentFocus && currentFocus!==nextFocus) {
+                    const currentRow = $(currentFocus).index();
+                    const currentRowValue = editable.getContent(currentFocus);
+
+                    //console.log(currentRow, currentRowValue);
+                    that.update(currentRow, currentRowValue);
+                }
+
+                currentFocus = nextFocus;
+
+            });
+
+            editable.on('insert', (elem, direction, cursor) => {
+                if (direction === 'after') {
+                    const e = E('br');
+                    cursor.insertAfter(e[0]);
+                } else if (direction === 'before') {
+                    // your code...
+                    console.log('insert before', direction);
+                }
+            });
 
             //editor.attr('contenteditable', true);
 
@@ -200,6 +224,7 @@ class Prompt {
 
             //});
 
+            editor.focus();
 
         });
 
@@ -230,45 +255,81 @@ class Prompt {
 
     }
 
-    update(q) {
-        // if (!q.length) {
-        //     reset();
+    setRow(row, newValue) {
+        let c = this.doc.children();
+        if (c) {
+            let child = $(c.get(row));
+            child.replaceWith(newValue);
+        }
+    }
+
+    update(row, v) {
+
+        const that = this;
+        // function setVar(v, x) {
+        //     //console.log('setVar', v, x);
+        //     that.var[v] = x; //can leak memory watch out
         // }
 
-        //editor.setValue(editor.getLine(0)); //clear everything below first line
+        const w = v.replace(/https?:\/\/([\w\d-\.]+)?[\w\d-\.]+\.{1}[\w]{1,4}((\/{1})?)([a-zA-Z0-9&-@_\+.‌​~#?\/=]*[\w])?/gi,
+            (x)=> { console.log(row, x); });
 
-        //suggFeed.html('');
-
-
-        // const update = _.debounce(()=>suggFeed.packery( 'appended' ), 100);
+        // if (v!=w) {
+        //     var ww = $('<span contenteditable="true" data-editable="id-1" spellcheck="false" class="js-editable"/>').html(w);
+        //     ww.find('.var').each((i, x)=>{
+        //         console.log(this, i, x);
+        //         x = $(x);
+        //         x.html(that.var[x.text()]).attr('var', null);
+        //     });
         //
-        // this.me.get(q, (x) => {
-        //
-        //     const y = new NIcon(x).ele;
-        //     f.append(y);
-        //
-        //
-        //     //editor.append(y);
-        //     //update();
-        // });
+        //     this.setRow(row, ww);
+        // }
 
-        //$('#query_status').html('Suggesting: ' + qText);
 
-//                $.get('/suggest', {q: qText}, function (result) {
-//
-//                    if (!result.length) {
-//                        suggestions.html('');
-//                    } else {
-//                        suggestions.html(_.map((result), (x) =>
-//                            D('suggestion').text(x).click(() => {
-//                                ele.val(x);
-//                                update(x);
-//                            })
-//                        ));
-//                    }
-//                });
-
+        // let w = v.replace('http://', '<button>http://</button>');
+        // if (w!=v)
+        //     this.setRow(row, w );
     }
+
+//     update(q) {
+//         // if (!q.length) {
+//         //     reset();
+//         // }
+//
+//         //editor.setValue(editor.getLine(0)); //clear everything below first line
+//
+//         //suggFeed.html('');
+//
+//
+//         // const update = _.debounce(()=>suggFeed.packery( 'appended' ), 100);
+//         //
+//         // this.me.get(q, (x) => {
+//         //
+//         //     const y = new NIcon(x).ele;
+//         //     f.append(y);
+//         //
+//         //
+//         //     //editor.append(y);
+//         //     //update();
+//         // });
+//
+//         //$('#query_status').html('Suggesting: ' + qText);
+//
+// //                $.get('/suggest', {q: qText}, function (result) {
+// //
+// //                    if (!result.length) {
+// //                        suggestions.html('');
+// //                    } else {
+// //                        suggestions.html(_.map((result), (x) =>
+// //                            D('suggestion').text(x).click(() => {
+// //                                ele.val(x);
+// //                                update(x);
+// //                            })
+// //                        ));
+// //                    }
+// //                });
+//
+//     }
 
 }
 

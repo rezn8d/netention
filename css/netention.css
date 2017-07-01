@@ -7,6 +7,11 @@ html, body {
 body {
     min-height: 100%;
     overflow: hidden;
+    line-height: 1.0em !important;
+}
+p {
+    margin: 0;
+    padding: 0;
 }
 
 *, :after, :before {
@@ -22,6 +27,11 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.prompt span:first-child {
+    font-weight: bold; /* first line as de-facto name field */
+    font-size: 150%;
 }
 
 /* MAIN VIEWPORT */
@@ -431,6 +441,7 @@ nav ul li ul li a:hover {
     padding: 0.5em;
     height: 100%;
     width: 100%;
+    min-width: 2em;
     overflow: auto;
 }
 .grid-item {
